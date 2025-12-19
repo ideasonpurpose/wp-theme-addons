@@ -1,6 +1,6 @@
 # WordPress JS Packages
 
-#### Version 0.0.4
+#### Version 0.0.5
 
 This repository contains JavaScript add-ons for the WordPress Block Editor.
 
