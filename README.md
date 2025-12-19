@@ -4,7 +4,7 @@
 
 This repository contains JavaScript add-ons for the WordPress Block Editor.
 
-This is currently private and under continual development, so it is distributed via GitHub Packages (not npm) using the @iop-dev namespace.
+This is currently private and under continual development, so it is distributed via GitHub Packages (not npm) using the @ideasonpurpose namespace.
 
 Packages are distributed via GitHub Packages, ensuring secure and private distribution within your organization.
 
@@ -24,7 +24,7 @@ To use this package in your WordPress projects, install it directly from the Git
    ```json
    {
      "dependencies": {
-       "@iop-dev/wp-js-packages": "git+ssh://git@github.com:ideasonpurpose/wp-js-packages.git"
+       "@ideasonpurpose/wp-js-packages": "git+ssh://git@github.com:ideasonpurpose/wp-js-packages.git"
      }
    }
    ```
@@ -40,7 +40,7 @@ To use this package in your WordPress projects, install it directly from the Git
 Import and use the package as per its documentation:
 
 ```javascript
-import { registerLinkedGroupBlock } from '@iop-dev/wp-js-packages';
+import { registerLinkedGroupBlock } from '@ideasonpurpose/wp-js-packages';
 
 // Use the function
 registerLinkedGroupBlock();
