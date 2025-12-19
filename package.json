@@ -1,0 +1,34 @@
+{
+  "name": "@iop-dev/wp-js-packages",
+  "version": "0.0.1",
+  "description": "",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ideasonpurpose/wp-js-packages.git"
+  },
+  "license": "ISC",
+  "author": "Ideas On Purpose (https://www.ideasonpurpose.com/)",
+  "contributors": [
+    "Joe Maller <joe@ideasonpurpose.com>"
+  ],
+  "type": "module",
+  "main": "index.js",
+  "scripts": {},
+  "prettier": "@ideasonpurpose/prettier-config",
+  "stylelint": {
+    "extends": "@ideasonpurpose/stylelint-config"
+  },
+  "devDependencies": {
+    "@ideasonpurpose/prettier-config": "^1.0.1",
+    "@ideasonpurpose/stylelint-config": "^1.1.4",
+    "@prettier/plugin-php": "^0.24.0",
+    "prettier": "^3.6.2",
+    "version-everything": "^0.11.4"
+  },
+  "version-everything": {
+    "files": [
+      "README.md"
+    ]
+  }
+}
