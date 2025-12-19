@@ -10,48 +10,32 @@ Packages are distributed via GitHub Packages, ensuring secure and private distri
 
 ## Installation
 
-To use these packages in WordPress projects, follow these steps:
+To use this package in your WordPress projects, install it directly from the Git repository using SSH.
 
-### 1. Set Up Authentication
+### Prerequisites
 
-Ensure you have a GitHub Personal Access Token (PAT) with `read:packages` permissions.
+- SSH access to GitHub configured (your SSH key must be added to your GitHub account)
+- You or the consuming project must have access to this private repository
 
-Create or update the `.npmrc` file in your consuming project's root directory:
+### Installation Steps
 
-```
-@your-github-org:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
-```
+1. In your project's `package.json`, add the dependency:
 
-Replace:
+   ```json
+   {
+     "dependencies": {
+       "@iop-dev/wp-js-packages": "git+ssh://git@github.com:ideasonpurpose/wp-js-packages.git"
+     }
+   }
+   ```
 
-- `your-github-org` with your GitHub organization or username
-- `YOUR_GITHUB_TOKEN` with your GitHub Personal Access Token
+2. Install the dependency:
 
-### 2. Environment Variable (Recommended)
+   ```bash
+   npm install
+   ```
 
-For security, use an environment variable instead of hardcoding the token:
-
-```
-@your-github-org:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
-```
-
-Set the `GITHUB_TOKEN` environment variable in your build/CI system or locally:
-
-```bash
-export GITHUB_TOKEN=your_personal_access_token_here
-```
-
-### 3. Install Packages
-
-Install the desired package:
-
-```bash
-npm install @iop-dev/wp-js-packages
-```
-
-### 4. Usage in Code
+### Usage in Code
 
 Import and use the package as per its documentation:
 
@@ -61,11 +45,3 @@ import { registerLinkedGroupBlock } from '@iop-dev/wp-js-packages';
 // Use the function
 registerLinkedGroupBlock();
 ```
-
-## GitHub Personal Access Token Setup
-
-1. Go to [GitHub Settings > Developer settings > Personal access tokens](https://github.com/settings/personal-access-tokens)
-2. Generate a new token with the `read:packages` scope.
-3. Copy the token and use it as described above.
-
-**Important:** Keep your PAT secure and never commit it to version control. Use environment variables or secure CI/CD secrets.

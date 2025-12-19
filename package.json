@@ -28,9 +28,6 @@
     "prettier": "^3.6.2",
     "version-everything": "^0.11.4"
   },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
-  },
   "version-everything": {
     "files": [
       "README.md"
