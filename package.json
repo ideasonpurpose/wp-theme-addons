@@ -5,7 +5,7 @@
   "keywords": [],
   "repository": {
     "type": "git",
-    "url": "https://github.com/ideasonpurpose/wp-js-packages.git"
+    "url": "git+https://github.com/ideasonpurpose/wp-js-packages.git"
   },
   "license": "ISC",
   "author": "Ideas On Purpose (https://www.ideasonpurpose.com/)",
@@ -27,6 +27,9 @@
     "@prettier/plugin-php": "^0.24.0",
     "prettier": "^3.6.2",
     "version-everything": "^0.11.4"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   },
   "version-everything": {
     "files": [
