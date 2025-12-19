@@ -1,5 +1,7 @@
 # WordPress JS Packages
 
+#### Version 1.2.3
+
 This repository contains JavaScript add-ons for the WordPress Block Editor.
 
 This is currently private and under continual development, so it is distributed via GitHub Packages (not npm) using the @iop-dev namespace.

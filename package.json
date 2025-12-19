@@ -14,7 +14,9 @@
   ],
   "type": "module",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "version": "version-everything  && git add -u"
+  },
   "prettier": "@ideasonpurpose/prettier-config",
   "stylelint": {
     "extends": "@ideasonpurpose/stylelint-config"
