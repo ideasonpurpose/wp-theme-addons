@@ -1,11 +1,11 @@
-import { addFilter } from "@wordpress/hooks";
-import { registerBlockVariation, createBlock } from "@wordpress/blocks";
 import { BlockControls, LinkControl } from "@wordpress/block-editor";
-import { useEffect, useState, RawHTML } from "@wordpress/element";
-import { createHigherOrderComponent } from "@wordpress/compose";
+import { registerBlockVariation, createBlock } from "@wordpress/blocks";
 import { ToolbarGroup, ToolbarButton, Popover } from "@wordpress/components";
-import { SVG, Path } from "@wordpress/primitives";
+import { createHigherOrderComponent } from "@wordpress/compose";
+import { useEffect, useState, RawHTML } from "@wordpress/element";
+import { addFilter } from "@wordpress/hooks";
 import { link } from "@wordpress/icons";
+import { SVG, Path } from "@wordpress/primitives";
 
 export default {};
 
@@ -25,18 +25,18 @@ const icon = (
  */
 const generateUniqueId = () => Math.random().toString(36).slice(2, 10);
 
-export function registerLinkedGroupBlock() {
-  registerBlockVariation("core/group", {
-    name: "group-linked",
-    title: "Linked Group",
-    description: "Group block with link support",
-    attributes: {
-      namespace: "ideasonpurpose/group-linked",
-      url: "",
-      opensInNewTab: false,
-    },
-    icon,
-    isActive: ["namespace"],
+export function initLinkedGroupBlock() {
+    registerBlockVariation("core/group", {
+      name: "group-linked",
+      title: "Linked Group",
+      description: "Group block with link support",
+      attributes: {
+        namespace: "ideasonpurpose/group-linked",
+        url: "",
+        opensInNewTab: false,
+      },
+      icon,
+      isActive: ["namespace"],
   });
 
   addFilter(
@@ -68,7 +68,7 @@ const controls = createHigherOrderComponent((BlockEdit) => {
 
     if (
       name !== "core/group" ||
-      attributes?.namespace !== "ideasonpurpose/group-link"
+      attributes?.namespace !== "ideasonpurpose/group-linked"
     ) {
       return <BlockEdit {...props} />;
     }
@@ -143,7 +143,7 @@ const makeEditorElement = createHigherOrderComponent((BlockListBlock) => {
     const { name, attributes } = props;
     if (
       name === "core/group" &&
-      attributes?.providerNameSlug === "group-link"
+      attributes?.providerNameSlug === "group-linked"
     ) {
       // TODO: Strip all links in here?
     }
@@ -256,7 +256,7 @@ const makeSaveElement = (element, blockType, attributes) => {
 
   if (
     blockType.name !== "core/group" ||
-    attributes?.namespace !== "ideasonpurpose/group-link"
+    attributes?.namespace !== "ideasonpurpose/group-linked"
   ) {
     return element;
   }
@@ -275,7 +275,7 @@ const makeSaveElement = (element, blockType, attributes) => {
       href={url}
       className={"linked-group iop-linked-group"}
       title={opensInNewTab ? "_blank" : undefined}
-      id={`group-link-${uniqueId}`}
+      id={`group-linked-${uniqueId}`}
     >
       {cleanedElement}
     </a>
