@@ -27,11 +27,11 @@ const generateUniqueId = () => Math.random().toString(36).slice(2, 10);
 
 export function registerLinkedGroupBlock() {
   registerBlockVariation("core/group", {
-    name: "group-link",
+    name: "group-linked",
     title: "Linked Group",
     description: "Group block with link support",
     attributes: {
-      namespace: "ideasonpurpose/group-link",
+      namespace: "ideasonpurpose/group-linked",
       url: "",
       opensInNewTab: false,
     },
@@ -41,19 +41,19 @@ export function registerLinkedGroupBlock() {
 
   addFilter(
     "editor.BlockEdit",
-    "ideasonpurpose/group-link/add-controls",
+    "ideasonpurpose/group-linked/add-controls",
     controls,
   );
 
   addFilter(
     "blocks.getSaveElement",
-    "ideasonpurpose/group-link/save-element",
+    "ideasonpurpose/group-linked/save-element",
     makeSaveElement,
   );
 
   addFilter(
     "blocks.registerBlockType",
-    "ideasonpurpose/group-link/define-attributes",
+    "ideasonpurpose/group-linked/define-attributes",
     defineAttributes,
   );
 }
