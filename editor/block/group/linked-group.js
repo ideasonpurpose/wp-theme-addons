@@ -4,10 +4,22 @@ import { ToolbarGroup, ToolbarButton, Popover } from "@wordpress/components";
 import { createHigherOrderComponent } from "@wordpress/compose";
 import { useEffect, useState, RawHTML } from "@wordpress/element";
 import { addFilter } from "@wordpress/hooks";
-import { link } from "@wordpress/icons";
+// import { globe,  link } from "@wordpress/icons";
 import { SVG, Path } from "@wordpress/primitives";
 
 export default {};
+
+const icon_link = (
+  <SVG xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <Path d="M10 17.389H8.444A5.194 5.194 0 1 1 8.444 7H10v1.5H8.444a3.694 3.694 0 0 0 0 7.389H10v1.5ZM14 7h1.556a5.194 5.194 0 0 1 0 10.39H14v-1.5h1.556a3.694 3.694 0 0 0 0-7.39H14V7Zm-4.5 6h5v-1.5h-5V13Z" />
+  </SVG>
+);
+
+const icon_linkOff = (
+  <SVG xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <Path d="M17.031 4.703 15.576 4l-1.56 3H14v.03l-2.324 4.47H9.5V13h1.396l-1.502 2.889h-.95a3.694 3.694 0 0 1 0-7.389H10V7H8.444a5.194 5.194 0 1 0 0 10.389h.17L7.5 19.53l1.416.719L15.049 8.5h.507a3.694 3.694 0 0 1 0 7.39H14v1.5h1.556a5.194 5.194 0 0 0 .273-10.383l1.202-2.304Z" />
+  </SVG>
+);
 
 const icon = (
   <SVG xmlns="" fill="currentColor" viewBox="0 0 48 48">
@@ -26,17 +38,17 @@ const icon = (
 const generateUniqueId = () => Math.random().toString(36).slice(2, 10);
 
 export function initLinkedGroupBlock() {
-    registerBlockVariation("core/group", {
-      name: "group-linked",
-      title: "Linked Group",
-      description: "Group block with link support",
-      attributes: {
-        namespace: "ideasonpurpose/group-linked",
-        url: "",
-        opensInNewTab: false,
-      },
-      icon,
-      isActive: ["namespace"],
+  registerBlockVariation("core/group", {
+    name: "group-linked",
+    title: "Linked Group",
+    description: "Group block with link support",
+    attributes: {
+      namespace: "ideasonpurpose/group-linked",
+      url: "",
+      opensInNewTab: false,
+    },
+    icon,
+    isActive: ["namespace"],
   });
 
   addFilter(
@@ -91,13 +103,14 @@ const controls = createHigherOrderComponent((BlockEdit) => {
       <>
         <BlockEdit {...newProps} />
 
-        <BlockControls>
+        <BlockControls group="block">
           <ToolbarGroup>
             <ToolbarButton
-              icon={link}
-              label={"Edit Link"}
+              name="link"
+              icon={!url ? icon_link : icon_linkOff}
               onClick={() => setIsLinkOpen(!isLinkOpen)}
-              isActive={!!url}
+              isActive={!url}
+              title={!url ? "Link" : "Unlink"}
               isPressed={isLinkOpen}
               ref={(el) => setPopoverAnchor(el)}
             />
@@ -115,7 +128,12 @@ const controls = createHigherOrderComponent((BlockEdit) => {
           >
             <LinkControl
               value={{ url, opensInNewTab }}
-              onChange={(value) => setAttributes({ ...value })}
+              onChange={(val) =>
+                setAttributes({
+                  url: val.url,
+                  opensInNewTab: val.opensInNewTab,
+                })
+              }
               onRemove={() => setAttributes({ url: "" })}
               showInitialSuggestions={true}
             />

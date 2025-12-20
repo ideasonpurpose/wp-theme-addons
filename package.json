@@ -33,8 +33,5 @@
     "files": [
       "README.md"
     ]
-  },
-  "dependencies": {
-    "@wordpress/icons": "^11.3.0"
   }
 }
