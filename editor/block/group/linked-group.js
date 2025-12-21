@@ -2,13 +2,15 @@ import { BlockControls, LinkControl } from "@wordpress/block-editor";
 import { registerBlockVariation, createBlock } from "@wordpress/blocks";
 import { ToolbarGroup, ToolbarButton, Popover } from "@wordpress/components";
 import { createHigherOrderComponent } from "@wordpress/compose";
-import { useEffect, useState, RawHTML } from "@wordpress/element";
+import { useState } from "@wordpress/element";
 import { addFilter } from "@wordpress/hooks";
-// import { globe,  link } from "@wordpress/icons";
 import { SVG, Path } from "@wordpress/primitives";
 
 export default {};
 
+/**
+ * Include the SVG icons so we don't need the heavy @wordpress/icons dependency
+ */
 const icon_link = (
   <SVG xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
     <Path d="M10 17.389H8.444A5.194 5.194 0 1 1 8.444 7H10v1.5H8.444a3.694 3.694 0 0 0 0 7.389H10v1.5ZM14 7h1.556a5.194 5.194 0 0 1 0 10.39H14v-1.5h1.556a3.694 3.694 0 0 0 0-7.39H14V7Zm-4.5 6h5v-1.5h-5V13Z" />
@@ -35,7 +37,7 @@ const icon = (
  * @returns {string} A unique identifier string
  * NOTE: toString(36) starts with '0.', so slice from 22 for a valid ID
  */
-const generateUniqueId = () => Math.random().toString(36).slice(2, 10);
+// const generateUniqueId = () => Math.random().toString(36).slice(2, 10);
 
 export function initLinkedGroupBlock() {
   registerBlockVariation("core/group", {
@@ -85,19 +87,10 @@ const controls = createHigherOrderComponent((BlockEdit) => {
       return <BlockEdit {...props} />;
     }
 
-    useEffect(() => {
-      if (!attributes.uniqueId) {
-        setAttributes({ uniqueId: generateUniqueId() });
-      }
-    }, [attributes.uniqueId, setAttributes]);
-
     const [isLinkOpen, setIsLinkOpen] = useState(false);
     const [popoverAnchor, setPopoverAnchor] = useState(null);
 
-    const newProps = {
-      ...props,
-      className: `${props.className} linked-group ideasonpurpose`,
-    };
+    const newProps = { ...props };
 
     return (
       <>
@@ -144,123 +137,6 @@ const controls = createHigherOrderComponent((BlockEdit) => {
   };
 }, "withInspectorControl");
 
-// addFilter(
-//   "editor.BlockEdit",
-//   "ideasonpurpose/group-link/add-controls",
-//   controls,
-// );
-
-/**
- * This changes the size of the block editor representation of the block
- * We use this to set the height of the outermost container
- *
- * NOTE: Similar to the `edit` method when creating a block from scratch?
- */
-const makeEditorElement = createHigherOrderComponent((BlockListBlock) => {
-  return (props) => {
-    const { name, attributes } = props;
-    if (
-      name === "core/group" &&
-      attributes?.providerNameSlug === "group-linked"
-    ) {
-      // TODO: Strip all links in here?
-    }
-    return <BlockListBlock {...props} />;
-  };
-}, "makeEditorElement");
-
-// TODO: unnecessary?
-// addFilter(
-//   "editor.BlockListBlock",
-//   "ideasonpurpose/group-link/make-editor-element",
-//   makeEditorElement,
-// );
-
-/**
- * Mostly from Grok, need to scrub all links from children to prevent invalid nested A tags
- */
-function deepSanitizeLinks(element) {
-  if (!element) return element;
-
-  // Case A: RawHTML string — sanitize it
-  if (element.type === RawHTML && typeof element.props.children === "string") {
-    console.log("case A - RawHTML string");
-    const dirty = element.props.children;
-    const temp = document.createElement("div");
-    temp.innerHTML = dirty;
-
-    const links = temp.querySelectorAll("a[href]");
-    if (links.length === 0) return element;
-
-    links.forEach((a) => {
-      const span = document.createElement("span");
-      span.innerHTML = a.innerHTML;
-      // Copy safe attrs
-      for (const attr of a.attributes) {
-        if (
-          ![
-            "href",
-            "target",
-            "rel",
-            "ping",
-            "referrerpolicy",
-            "download",
-          ].includes(attr.name)
-        ) {
-          span.setAttribute(attr.name, attr.value);
-        }
-        if (attr.name === "href") {
-          span.setAttribute("data-original-href", attr.value);
-        }
-        if (attr.name === "title") {
-          span.setAttribute("data-original-title", attr.value);
-        }
-      }
-      a.replaceWith(span);
-    });
-
-    return <RawHTML>{temp.innerHTML}</RawHTML>;
-  }
-
-  // Case B: Array of children (most common with InnerBlocks)
-  if (Array.isArray(element)) {
-    console.log("case B - Array of children");
-    return element.map((child) => deepSanitizeLinks(child));
-  }
-
-  // Case C: React element with props.children
-  if (element.props?.children != null) {
-    console.log("case C - React element with props.children");
-    const children = Array.isArray(element.props.children)
-      ? element.props.children
-      : [element.props.children];
-
-    const sanitizedChildren = children.map((child) =>
-      typeof child === "string" || child === null
-        ? child
-        : deepSanitizeLinks(child),
-    );
-
-    // Avoid unnecessary cloning
-    if (sanitizedChildren.every((c, i) => c === children[i])) {
-      return element;
-    }
-
-    return {
-      ...element,
-      props: {
-        ...element.props,
-        children:
-          sanitizedChildren.length === 1
-            ? sanitizedChildren[0]
-            : sanitizedChildren,
-      },
-    };
-  }
-
-  return element;
-}
-
 /**
  * This updates components in the Save representation of the block.
  * This affects what will appear on the public-facing display of the page
@@ -279,32 +155,63 @@ const makeSaveElement = (element, blockType, attributes) => {
     return element;
   }
 
-  const { uniqueId, url, opensInNewTab } = attributes;
+  const { url, opensInNewTab } = attributes;
 
-  // TODO: Only replace this if there's a url to use.
+  // TODO: Only replace the group if there's a url set
   if (!url) {
     return element;
   }
 
-  const cleanedElement = deepSanitizeLinks(element);
-
-  return (
+  const link = (
     <a
       href={url}
-      className={"linked-group iop-linked-group"}
-      title={opensInNewTab ? "_blank" : undefined}
-      id={`group-linked-${uniqueId}`}
-    >
-      {cleanedElement}
-    </a>
+      className={"linked-group__link iop-linked-group__link"}
+      target={opensInNewTab ? "_blank" : undefined}
+    ></a>
   );
+
+  // append a link to the block's children toi avoid :first-child issues
+  const originalChildren = element.props.children;
+  const newChildren = Array.isArray(originalChildren)
+    ? [...originalChildren, link]
+    : [originalChildren, link];
+
+  attributes.className = "iop-linked-group";
+  return { ...element, props: { ...element.props, children: newChildren } };
 };
 
-// addFilter(
-//   "blocks.getSaveElement",
-//   "ideasonpurpose/group-link/save-element",
-//   makeSaveElement,
-// );
+const linkedGroupTransformTo = {
+  type: "block",
+  blocks: ["core/group"],
+  transform: (attributes, innerBlocks) => {
+    console.log(attributes);
+
+    return createBlock(
+      "core/group",
+      {
+        ...attributes,
+        className: "iop-linked-group transformedadoobeedooobeedoooo",
+        url: "",
+        namespace: "ideasonpurpose/group-linked",
+      },
+      innerBlocks,
+    );
+  },
+};
+
+// TODO: this isn't working
+const linkedGroupTransformFrom = {
+  type: "block",
+  blocks: ["core/group"],
+  transform: (attributes, innerBlocks) => {
+    const newAttributes = { ...attributes };
+
+    delete newAttributes.url;
+    delete newAttributes.opensInNewTab;
+    delete newAttributes.namespace;
+    return createBlock("core/group", { ...newAttributes }, innerBlocks);
+  },
+};
 
 /**
  * In order to save values from the injected controls, we need to declare
@@ -324,16 +231,17 @@ const defineAttributes = (settings, name) => {
       ...settings.attributes,
       url: { type: "string", default: "" },
       opensInNewTab: { type: "boolean", default: false },
-      uniqueId: { type: "string", default: "" },
       namespace: { type: "string", default: "" },
     },
   };
 
+  if (!newSettings.hasLinkedGroupTransform) {
+    newSettings.hasLinkedGroupTransform = true;
+
+    if (!newSettings.transforms.to) {
+      newSettings.transforms.to = [linkedGroupTransformTo];
+    }
+  }
+
   return newSettings;
 };
-
-// addFilter(
-//   "blocks.registerBlockType",
-//   "ideasonpurpose/group-link/define-attributes",
-//   defineAttributes,
-// );

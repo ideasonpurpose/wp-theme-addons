@@ -2,15 +2,14 @@
 
 #### Version 0.0.5
 
-This repository contains JavaScript add-ons for the WordPress Block Editor.
+This repository contains JavaScript add-ons for the WordPress Block Editor. The project is currently private and under continual development.
 
-This is currently private and under continual development, so it is distributed via GitHub Packages (not npm) using the @ideasonpurpose namespace.
-
-Packages are distributed via GitHub Packages, ensuring secure and private distribution within your organization.
 
 ## Installation
 
-To use this package in your WordPress projects, install it directly from the Git repository using SSH.
+To use this package in your WordPress projects, install it with npm directly from the Git repository using SSH.
+
+Some blocks contain additional Sass styles which should be loaded into front-end stylesheet.
 
 ### Prerequisites
 
@@ -45,3 +44,8 @@ import { registerLinkedGroupBlock } from '@ideasonpurpose/wp-js-packages';
 // Use the function
 registerLinkedGroupBlock();
 ```
+
+For frontend styles: 
+
+```Sass
+@use "@ideasonpurpose/wp-js-packages/editor/block/group/linked-group-front-end.scss"

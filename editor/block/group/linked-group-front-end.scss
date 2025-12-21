@@ -1,0 +1,23 @@
+.iop-linked-group {
+  position: relative;
+
+  // the first link in the group
+  a.iop-linked-group__link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    margin: 0;
+  }
+
+  // every clickable element in the group needs to be position:relative
+  button,
+  a:not(.iop-linked-group__link) {
+    position: relative;
+    z-index: 20;
+  }
+}
