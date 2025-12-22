@@ -49,3 +49,5 @@ For frontend styles:
 
 ```Sass
 @use "@ideasonpurpose/wp-js-packages/editor/block/group/linked-group-front-end.scss"
+
+Until PHP namespaces can be resolved, the PHP component should be copied into the project and loaded from there. 

@@ -1,10 +1,26 @@
-import { BlockControls, LinkControl } from "@wordpress/block-editor";
+import {
+  BlockControls,
+  InspectorControls,
+  LinkControl,
+} from "@wordpress/block-editor";
 import { registerBlockVariation, createBlock } from "@wordpress/blocks";
-import { ToolbarGroup, ToolbarButton, Popover } from "@wordpress/components";
+import {
+  ExternalLink,
+  Popover,
+  TextControl,
+  ToggleControl,
+  ToolbarButton,
+  ToolbarGroup,
+  __experimentalToolsPanel as ToolsPanel,
+  __experimentalToolsPanelItem as ToolsPanelItem,
+} from "@wordpress/components";
 import { createHigherOrderComponent } from "@wordpress/compose";
 import { useState } from "@wordpress/element";
 import { addFilter } from "@wordpress/hooks";
 import { SVG, Path } from "@wordpress/primitives";
+import { __ } from "@wordpress/i18n";
+import { select, useSelect, withSelect } from "@wordpress/data";
+import { createInterpolateElement } from "@wordpress/element";
 
 export default {};
 
@@ -48,6 +64,9 @@ export function initLinkedGroupBlock() {
       namespace: "ideasonpurpose/group-linked",
       url: "",
       opensInNewTab: false,
+      linkToSelf: false,
+      rel: "",
+      linkTarget: "_self",
     },
     icon,
     isActive: ["namespace"],
@@ -59,11 +78,11 @@ export function initLinkedGroupBlock() {
     controls,
   );
 
-  addFilter(
-    "blocks.getSaveElement",
-    "ideasonpurpose/group-linked/save-element",
-    makeSaveElement,
-  );
+  // addFilter(
+  //   "blocks.getSaveElement",
+  //   "ideasonpurpose/group-linked/save-element",
+  //   makeSaveElement,
+  // );
 
   addFilter(
     "blocks.registerBlockType",
@@ -78,7 +97,9 @@ export function initLinkedGroupBlock() {
 const controls = createHigherOrderComponent((BlockEdit) => {
   return (props) => {
     const { name, attributes, setAttributes } = props;
-    const { url, opensInNewTab } = attributes;
+    const { url, opensInNewTab, linkToSelf, rel, linkTarget } = attributes;
+
+    const { postId, queryId } = props.context;
 
     if (
       name !== "core/group" ||
@@ -96,19 +117,97 @@ const controls = createHigherOrderComponent((BlockEdit) => {
       <>
         <BlockEdit {...newProps} />
 
-        <BlockControls group="block">
-          <ToolbarGroup>
-            <ToolbarButton
-              name="link"
-              icon={!url ? icon_link : icon_linkOff}
-              onClick={() => setIsLinkOpen(!isLinkOpen)}
-              isActive={!url}
-              title={!url ? "Link" : "Unlink"}
-              isPressed={isLinkOpen}
-              ref={(el) => setPopoverAnchor(el)}
-            />
-          </ToolbarGroup>
-        </BlockControls>
+        {queryId && (
+          <InspectorControls>
+            <ToolsPanel
+              label={__("Settings")}
+              resetAll={() => {
+                setAttributes({
+                  rel: "",
+                  linkTarget: "_self",
+                  isLink: false,
+                });
+              }}
+            >
+              <ToolsPanelItem
+                label={"Link to Queried Item"}
+                isShownByDefault
+                hasValue={() => linkToSelf}
+                onDeselect={() => setAttributes({ linkToSelf: false })}
+              >
+                <ToggleControl
+                  label={"Link to Queried Item"}
+                  onChange={() => setAttributes({ linkToSelf: !linkToSelf })}
+                  checked={linkToSelf}
+                />
+              </ToolsPanelItem>
+
+              {linkToSelf && (
+                <>
+                  <ToolsPanelItem
+                    label={__("Open in new tab")}
+                    isShownByDefault
+                    hasValue={() => linkTarget === "_blank"}
+                    onDeselect={() =>
+                      setAttributes({
+                        linkTarget: "_self",
+                      })
+                    }
+                  >
+                    <ToggleControl
+                      label={__("Open in new tab")}
+                      onChange={(value) =>
+                        setAttributes({
+                          linkTarget: value ? "_blank" : "_self",
+                        })
+                      }
+                      checked={linkTarget === "_blank"}
+                    />
+                  </ToolsPanelItem>
+                  <ToolsPanelItem
+                    label={__("Link relation")}
+                    isShownByDefault
+                    hasValue={() => !!rel}
+                    onDeselect={() => setAttributes({ rel: "" })}
+                  >
+                    <TextControl
+                      __next40pxDefaultSize
+                      label={__("Link relation")}
+                      help={createInterpolateElement(
+                        __(
+                          "The <a>Link Relation</a> attribute defines the relationship between a linked resource and the current document.",
+                        ),
+                        {
+                          a: (
+                            <ExternalLink href="https://developer.mozilla.org/docs/Web/HTML/Attributes/rel" />
+                          ),
+                        },
+                      )}
+                      value={rel}
+                      onChange={(newRel) => setAttributes({ rel: newRel })}
+                    />
+                  </ToolsPanelItem>
+                </>
+              )}
+            </ToolsPanel>
+          </InspectorControls>
+        )}
+
+        {!linkToSelf && (
+          <BlockControls group="block">
+            <ToolbarGroup>
+              <ToolbarButton
+                name="link"
+                icon={!url ? icon_link : icon_linkOff}
+                onClick={() => setIsLinkOpen(!isLinkOpen)}
+                isActive={!url}
+                title={!url ? "Link" : "Unlink"}
+                isPressed={isLinkOpen}
+                ref={(el) => setPopoverAnchor(el)}
+              />
+            </ToolbarGroup>
+          </BlockControls>
+        )}
 
         {isLinkOpen && (
           <Popover
@@ -120,11 +219,12 @@ const controls = createHigherOrderComponent((BlockEdit) => {
             shift
           >
             <LinkControl
-              value={{ url, opensInNewTab }}
+              value={{ url, opensInNewTab: linkTarget === "_blank" }}
               onChange={(val) =>
                 setAttributes({
                   url: val.url,
-                  opensInNewTab: val.opensInNewTab,
+                  // opensInNewTab: val.opensInNewTab,
+                  linkTarget: val.opensInNewTab ? "_blank" : "_self",
                 })
               }
               onRemove={() => setAttributes({ url: "" })}
@@ -155,18 +255,25 @@ const makeSaveElement = (element, blockType, attributes) => {
     return element;
   }
 
-  const { url, opensInNewTab } = attributes;
+  const { url, linkToSelf, rel, linkTarget } = attributes;
+
+  // console.log({ "save-props": element.props });
 
   // TODO: Only replace the group if there's a url set
-  if (!url) {
+  if (!url && !linkToSelf) {
     return element;
   }
 
+  const href = linkToSelf ? "#__LINKED_GROUP_PLACEHOLDER__" : url;
+
+  // console.log({ here: href });
+
   const link = (
     <a
-      href={url}
+      href={href}
       className={"linked-group__link iop-linked-group__link"}
-      target={opensInNewTab ? "_blank" : undefined}
+      target={linkTarget}
+      rel={rel}
     ></a>
   );
 
@@ -227,11 +334,17 @@ const defineAttributes = (settings, name) => {
 
   const newSettings = {
     ...settings,
+    usesContext: ["postId", "queryId"],
     attributes: {
       ...settings.attributes,
-      url: { type: "string", default: "" },
-      opensInNewTab: { type: "boolean", default: false },
       namespace: { type: "string", default: "" },
+      url: { type: "string", default: "" },
+      // opensInNewTab: { type: "boolean", default: false },
+
+      // isLink: { type: "boolean", default: false },
+      linkToSelf: { type: "boolean", default: false },
+      rel: { type: "string", attribute: "rel", default: "" },
+      linkTarget: { type: "string", default: "_self" },
     },
   };
 
