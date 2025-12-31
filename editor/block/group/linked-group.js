@@ -75,7 +75,7 @@ export function initLinkedGroupBlock() {
   addFilter(
     "editor.BlockEdit",
     "ideasonpurpose/group-linked/add-controls",
-    controls,
+    wrappedEdit,
   );
 
   // addFilter(
@@ -93,8 +93,10 @@ export function initLinkedGroupBlock() {
 
 /**
  * Add controls to the Block Editor sidebar
+ * This is basically a wrapped copy of the block's Edit function
+ * @link https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/
  */
-const controls = createHigherOrderComponent((BlockEdit) => {
+const wrappedEdit = createHigherOrderComponent((BlockEdit) => {
   return (props) => {
     const { name, attributes, setAttributes } = props;
     const { url, opensInNewTab, linkToSelf, rel, linkTarget } = attributes;
@@ -277,7 +279,7 @@ const makeSaveElement = (element, blockType, attributes) => {
     ></a>
   );
 
-  // append a link to the block's children toi avoid :first-child issues
+  // append a link to the block's children to avoid :first-child issues
   const originalChildren = element.props.children;
   const newChildren = Array.isArray(originalChildren)
     ? [...originalChildren, link]
@@ -323,6 +325,8 @@ const linkedGroupTransformFrom = {
 /**
  * In order to save values from the injected controls, we need to declare
  * the attributes so WordPress knows where to store the data.
+ *
+ * Called from the blocks.registerBlockType hook.
  * @link https://developer.wordpress.org/block-editor/reference-guides/filters/block-filters/#blocks-registerblocktype
  */
 const defineAttributes = (settings, name) => {

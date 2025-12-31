@@ -1,6 +1,6 @@
 <?php
 
-namespace IdeasOnPurpose\WP\Block\Variation;
+namespace IdeasOnPurpose\Block\Variation;
 
 class LinkedGroup
 {
@@ -29,25 +29,36 @@ class LinkedGroup
 
     public function wrapped_render_callback($attributes, $content, $block)
     {
-        $blockHTML = call_user_func($this->original_callback, $attributes, $content, $block);
+        global $post;
+        $blockHTML = $content;
 
-        if (!isset($attributes['namespace']) || $attributes['namespace'] !== $this->variationNamespace) {
+        if (($attributes['namespace'] ?? null) !== $this->variationNamespace) {
             return $blockHTML;
         }
 
+        if (!isset($attributes['linkToSelf']) && !isset($attributes['url'])) {
+            return $blockHTML;
+        }
 
-        // DEBUG SNIPPET START
-        \Kint::$mode_default = 'c';
+        $href =
+            isset($attributes['linkToSelf']) && $attributes['linkToSelf']
+                ? get_permalink($post)
+                : $attributes['url'];
 
-        error_log("\n" .@d($attributes, $content));
+        $target = isset($attributes['linkTarget'])
+            ? ' target="' . esc_attr($attributes['linkTarget']) . '"'
+            : '';
+        $rel = isset($attributes['rel']) ? ' rel="' . esc_attr($attributes['rel']) . '"' : '';
 
-        \Kint::$mode_default = 'r';
-        // DEBUG SNIPPET END
+        $linkHTML = sprintf(
+            '<a href="%s" class="iop-linked-group__link"%s%s></a>',
+            esc_attr($href),
+            $target,
+            $rel,
+        );
 
+        $blockHTML = preg_replace('/<\/div>$/', $linkHTML . '</div>', $blockHTML);
 
-        // $prefix = sprintf('<span>%s</span>', $attributes['prefix']);
-        $newHTML = preg_replace('/#__LINKED_GROUP_PLACEHOLDER__/i', "#PERMALINK", $blockHTML);
-
-        return $newHTML;
+        return $blockHTML;
     }
 }
