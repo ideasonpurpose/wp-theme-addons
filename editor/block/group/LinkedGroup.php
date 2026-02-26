@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * This file is part of the WordPress JS Packages.
+ * @link https://github.com/ideasonpurpose/wp-js-packages
+ */
+
 namespace IdeasOnPurpose\Block\Variation;
 
 class LinkedGroup
