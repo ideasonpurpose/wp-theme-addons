@@ -299,7 +299,7 @@ const linkedGroupTransformTo = {
       "core/group",
       {
         ...attributes,
-        className: "iop-linked-group transformedadoobeedooobeedoooo",
+        className: "iop-linked-group",
         url: "",
         namespace: "ideasonpurpose/group-linked",
       },
