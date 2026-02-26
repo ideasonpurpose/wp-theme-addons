@@ -31,7 +31,13 @@ A few utility classes are exported. `usePublicPostTypes` and `usePublicTaxonomie
 - SSH access to GitHub configured (your SSH key must be added to your GitHub account)
 - You or the consuming project must have access to this private repository
 
-1. In your project's `package.json`, add the dependency:
+1. Or, install directly with this line:
+
+   ```sh
+   npm install git+ssh://git@github.com:ideasonpurpose/wp-js-packages.git
+   ```
+
+2. Or, add the dependency to your project's `package.json`:
 
    ```json
    {
@@ -41,7 +47,7 @@ A few utility classes are exported. `usePublicPostTypes` and `usePublicTaxonomie
    }
    ```
 
-2. Install the dependency:
+   Then install the dependency:
 
    ```bash
    npm install
@@ -49,19 +55,28 @@ A few utility classes are exported. `usePublicPostTypes` and `usePublicTaxonomie
 
 ### Usage in Code
 
-Import and use the package as per its documentation:
+Import one of the included packages into **editor.js** or whatever script loads in your editor:
 
 ```javascript
-import { registerLinkedGroupBlock } from '@ideasonpurpose/wp-js-packages';
+// @link https://github.com/ideasonpurpose/wp-js-packages
+import { initLinkedGroupBlock } from "@ideasonpurpose/wp-js-packages";
 
-// Use the function
-registerLinkedGroupBlock();
+// Instantiate the function
+initLinkedGroupBlock();
 ```
 
-For frontend styles:
+Also add the matching Sass frontend styles:
 
 ```scss
-@use "@ideasonpurpose/wp-js-packages/editor/block/group/linked-group-front-end.scss"
+// Import linked-group-front-end styles
+// @link https://github.com/ideasonpurpose/wp-js-packages
+@use "@ideasonpurpose/wp-js-packages/editor/block/group/linked-group-front-end";
 ```
 
-Until PHP namespaces can be resolved, the PHP component should be copied into the project and loaded from there.
+Until PHP namespaces can be resolved, the PHP component should be copied into the project and loaded from there. Make sure to create a matching `Blocks/Variation/namespace
+
+```sh
+cp block/group/LinkedGroup.php wp-content/themes/my-theme/lib
+```
+
+Then initiate it from your code (likely funtions.php)
