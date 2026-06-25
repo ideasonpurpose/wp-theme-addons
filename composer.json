@@ -17,6 +17,12 @@
       "ext-intl": "0"
     }
   },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/ideasonpurpose/wp-related-posts"
+    }
+  ],
   "require": {
     "ideasonpurpose/wp-related-posts": "dev-main"
   },
