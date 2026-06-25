@@ -4,12 +4,6 @@
 
 This repository contains JavaScript add-ons for the WordPress Block Editor. The project is currently private and under continual development.
 
-## Installation
-
-To use this package in your WordPress projects, install it with npm directly from the Git repository using SSH.
-
-Some blocks contain additional Sass styles which should be loaded into front-end stylesheet.
-
 ## What's in here
 
 ### Linked Group Block
@@ -31,35 +25,35 @@ A few utility classes are exported. `usePublicPostTypes` and `usePublicTaxonomie
 - SSH access to GitHub configured (your SSH key must be added to your GitHub account)
 - You or the consuming project must have access to this private repository
 
-1. Or, install directly with this line:
+### npm
 
-   ```sh
-   npm install git+ssh://git@github.com:ideasonpurpose/wp-js-packages.git
-   ```
+```sh
+npm install git+ssh://git@github.com:ideasonpurpose/wp-theme-addons.git
+```
 
-2. Or, add the dependency to your project's `package.json`:
+Or in `package.json`:
 
-   ```json
-   {
-     "dependencies": {
-       "@ideasonpurpose/wp-js-packages": "git+ssh://git@github.com:ideasonpurpose/wp-js-packages.git"
-     }
-   }
-   ```
+```json
+{
+  "dependencies": {
+    "@ideasonpurpose/wp-theme-addons": "git+ssh://git@github.com:ideasonpurpose/wp-theme-addons.git"
+  }
+}
+```
 
-   Then install the dependency:
+Then run:
 
-   ```bash
-   npm install
-   ```
+```bash
+npm install
+```
 
 ### Usage in Code
 
 Import one of the included packages into **editor.js** or whatever script loads in your editor:
 
 ```javascript
-// @link https://github.com/ideasonpurpose/wp-js-packages
-import { initLinkedGroupBlock } from "@ideasonpurpose/wp-js-packages";
+// @link https://github.com/ideasonpurpose/wp-theme-addons
+import { initLinkedGroupBlock } from "@ideasonpurpose/wp-theme-addons";
 
 // Instantiate the function
 initLinkedGroupBlock();
@@ -69,14 +63,40 @@ Also add the matching Sass frontend styles:
 
 ```scss
 // Import linked-group-front-end styles
-// @link https://github.com/ideasonpurpose/wp-js-packages
-@use "@ideasonpurpose/wp-js-packages/editor/block/group/linked-group-front-end";
+// @link https://github.com/ideasonpurpose/wp-theme-addons
+@use "@ideasonpurpose/wp-theme-addons/editor/block/variation/group-linked-group/linked-group-front-end";
 ```
 
-Until PHP namespaces can be resolved, the PHP component should be copied into the project and loaded from there. Make sure to create a matching `Blocks/Variation/namespace
+### Composer
+
+Add the VCS repository and require the package in your project's `composer.json`:
+
+```json
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:ideasonpurpose/wp-theme-addons.git"
+        }
+    ],
+    "require": {
+        "ideasonpurpose/wp-theme-addons": "dev-main"
+    }
+}
+```
+
+Then run:
 
 ```sh
-cp block/group/LinkedGroup.php wp-content/themes/my-theme/lib
+composer install
 ```
 
-Then initiate it from your code (likely funtions.php)
+#### Usage in PHP
+
+```php
+use IdeasOnPurpose\WP\Theme\Addons\Block\Variation\GroupLinkedGroup\LinkedGroup;
+use IdeasOnPurpose\WP\Theme\Addons\Block\Variation\QueryRelatedPosts\RelatedPostsQueryBlock;
+
+new LinkedGroup();
+new RelatedPostsQueryBlock();
+```

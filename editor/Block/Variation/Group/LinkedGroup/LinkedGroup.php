@@ -5,7 +5,7 @@
  * @link https://github.com/ideasonpurpose/wp-js-packages
  */
 
-namespace IdeasOnPurpose\Block\Variation;
+namespace IdeasOnPurpose\WP\Theme\Addons\Block\Variation\Group\LinkedGroup;
 
 class LinkedGroup
 {
@@ -25,7 +25,7 @@ class LinkedGroup
     public function wrap_render_callback($args, $block_type)
     {
         if ($block_type === $this->src_block_name) {
-            // Record existing callback
+            // Store existing callback
             $this->original_callback = $args['render_callback'];
             $args['render_callback'] = [$this, 'wrapped_render_callback'];
         }

@@ -5,11 +5,11 @@
  * @link https://github.com/ideasonpurpose/wp-js-packages
  */
 
-namespace IdeasOnPurpose\Block\Variation;
+namespace IdeasOnPurpose\WP\Theme\Addons\Block\Variation\Query\RelatedPostsQuery;
 
 use IdeasOnPurpose\WP\RelatedPosts;
 
-class RelatedPostsQueryBlock
+class RelatedPostsQuery
 {
     public $namespace = 'ideasonpurpose/query-related-posts';
 

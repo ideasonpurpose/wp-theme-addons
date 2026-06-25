@@ -1,3 +1,5 @@
+// @ts-check
+
 import {
   BlockControls,
   InspectorControls,
@@ -19,7 +21,7 @@ import { useState } from "@wordpress/element";
 import { addFilter } from "@wordpress/hooks";
 import { SVG, Path } from "@wordpress/primitives";
 import { __ } from "@wordpress/i18n";
-import { select, useSelect, withSelect } from "@wordpress/data";
+// import { select, useSelect, withSelect } from "@wordpress/data";
 import { createInterpolateElement } from "@wordpress/element";
 
 export default {};
@@ -268,7 +270,6 @@ const makeSaveElement = (element, blockType, attributes) => {
 
   const href = linkToSelf ? "#__LINKED_GROUP_PLACEHOLDER__" : url;
 
-  // console.log({ here: href });
 
   const link = (
     <a
