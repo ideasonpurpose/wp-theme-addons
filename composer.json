@@ -1,22 +1,29 @@
 {
-    "name": "ideasonpurpose/wp-theme-addons",
-    "description": "WordPress Block Editor add-ons — JavaScript blocks, utilities, and PHP components",
-    "type": "library",
-    "license": "ISC",
-    "authors": [
-        {
-            "name": "Ideas On Purpose",
-            "homepage": "https://www.ideasonpurpose.com/"
-        }
-    ],
-    "require": {
-        "php": ">=8.0",
-        "ideasonpurpose/wp-related-posts": "^1.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "IdeasOnPurpose\\WP\\Theme\\Addons\\Block\\Variation\\Group\\LinkedGroup\\": "editor/block/variation/Group/LinkedGroup/",
-            "IdeasOnPurpose\\WP\\Theme\\Addons\\Block\\Variation\\Query\\RelatedPostsQuery\\": "editor/block/variation/Query/RelatedPostsQuery/"
-        }
+  "name": "ideasonpurpose/wp-theme-addons",
+  "description": "WordPress Block Editor add-ons — JavaScript blocks, utilities, and PHP components",
+  "type": "library",
+  "license": "ISC",
+  "authors": [
+    {
+      "name": "Ideas On Purpose",
+      "homepage": "https://www.ideasonpurpose.com/"
     }
+  ],
+  "config": {
+    "optimize-autoloader": true,
+    "sort-packages": true,
+    "platform": {
+      "php": "8.4",
+      "ext-intl": "0"
+    }
+  },
+  "require": {
+    "ideasonpurpose/wp-related-posts": "dev-main@dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "IdeasOnPurpose\\WP\\Theme\\Addons\\Block\\Variation\\Group\\LinkedGroup\\": "editor/block/variation/Group/LinkedGroup/",
+      "IdeasOnPurpose\\WP\\Theme\\Addons\\Block\\Variation\\Query\\RelatedPostsQuery\\": "editor/block/variation/Query/RelatedPostsQuery/"
+    }
+  }
 }
