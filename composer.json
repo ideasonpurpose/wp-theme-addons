@@ -18,7 +18,7 @@
     }
   },
   "require": {
-    "ideasonpurpose/wp-related-posts": "dev-main@dev"
+    "ideasonpurpose/wp-related-posts": "dev-main"
   },
   "autoload": {
     "psr-4": {
