@@ -3,3 +3,5 @@ export { usePublicTaxonomies } from "./lib/use-public-taxonomies.js";
 
 export { initLinkedGroupBlock } from "./editor/Block/Variation/Group/LinkedGroup/linked-group.js";
 export { initRelatedPostsQueryBlock } from "./editor/Block/Variation/Query/RelatedPostsQuery/related-posts-query.js";
+
+export { initCssLocalProps } from "./CssLocalProps/css-local-props.js";

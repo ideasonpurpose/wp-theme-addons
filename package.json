@@ -13,8 +13,8 @@
     "Joe Maller <joe@ideasonpurpose.com>"
   ],
   "type": "module",
-  "main": "index.js",
   "exports": "./index.js",
+  "main": "index.js",
   "scripts": {
     "version": "version-everything  && git add -u"
   },
@@ -22,19 +22,20 @@
   "stylelint": {
     "extends": "@ideasonpurpose/stylelint-config"
   },
+  "dependencies": {},
   "devDependencies": {
-    "@ideasonpurpose/prettier-config": "^1.0.1",
-    "@ideasonpurpose/stylelint-config": "^1.1.4",
-    "@prettier/plugin-php": "^0.24.0",
-    "prettier": "^3.6.2",
-    "version-everything": "^0.11.4"
+    "@ideasonpurpose/prettier-config": "^1.1.1",
+    "@ideasonpurpose/stylelint-config": "^1.1.6",
+    "@prettier/plugin-php": "^0.25.0",
+    "@types/wordpress__block-editor": "^15.0.6",
+    "@wordpress/compose": "^8.3.0",
+    "@wordpress/hooks": "^4.50.0",
+    "prettier": "^3.9.4",
+    "version-everything": "^0.12.2"
   },
   "version-everything": {
     "files": [
       "README.md"
     ]
-  },
-  "dependencies": {
-    "@wordpress/icons": "^15.0.0"
   }
 }

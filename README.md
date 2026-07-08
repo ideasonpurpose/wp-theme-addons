@@ -6,13 +6,36 @@ This repository contains JavaScript add-ons for the WordPress Block Editor. The 
 
 ## What's in here
 
-### Linked Group Block
+### Block Variations
+
+#### Linked Group Block
 
 A variation on the Group block which adds standard Link controls. The link implementation uses ideas from [Accessible cards](https://kittygiraudel.com/2022/04/02/accessible-cards/) and [Inclusive Components: Cards](https://inclusive-components.design/cards/).
 
-### Related Posts Query
+#### Related Posts Query
 
 A variation on the Query Loop block which replaces the query with content from IOP's [WordPress Related Posts](https://github.com/ideasonpurpose/wp-related-posts) library.
+
+### CSS Local Props
+
+Injects block color attributes as CSS custom properties (`--local-text-color`, `--local-bg-color`, `--local-border-color`) so theme styles can use them.
+
+This feature include a pair of front-end and block editor files:
+
+| File                               | Runtime                           | Role                                                                                                                                                                |
+| ---------------------------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `CssLocalProps/CssLocalProps.php`  | PHP (frontend + editor bootstrap) | On `render_block`, writes the local props onto the outer wrapper tag. On `enqueue_block_editor_assets`, localizes the allowed-block list to `window.iopLocalProps`. |
+| `CssLocalProps/css-local-props.js` | Block editor                      | Higher-order component on `editor.BlockListBlock` that injects the same vars into `wrapperProps.style` for live editor preview.                                     |
+
+Named colors from theme.json are converted to `var(--wp--preset--color--*)`; custom hex/rgb values pass through as-is.
+
+By default only `core/button` is targeted. Change the list from PHP:
+
+```php
+add_filter('iop/add_css_local_props_allowed_blocks', fn() => ['core/button', 'core/group']);
+```
+
+Both sides must stay in sync: enable PHP for frontend output and call `initCssLocalProps()` in the editor bundle so the canvas matches the saved markup.
 
 ### Utilities
 
@@ -67,10 +90,11 @@ Import one of the included packages into **editor.js** or whatever script loads 
 
 ```javascript
 // @link https://github.com/ideasonpurpose/wp-theme-addons
-import { initLinkedGroupBlock } from "@ideasonpurpose/wp-theme-addons";
+import { initLinkedGroupBlock, initCssLocalProps } from "@ideasonpurpose/wp-theme-addons";
 
 // Instantiate the function
 initLinkedGroupBlock();
+initCssLocalProps();
 ```
 
 Also add the matching Sass frontend styles:
@@ -86,9 +110,11 @@ Also add the matching Sass frontend styles:
 ```php
 use IdeasOnPurpose\WP\Theme\Addons\Block\Variation\Group\LinkedGroup\LinkedGroup;
 use IdeasOnPurpose\WP\Theme\Addons\Block\Variation\Query\RelatedPostsQuery\RelatedPostsQuery;
+use IdeasOnPurpose\WP\Theme\Addons\CssLocalProps\CssLocalProps;
 
 new LinkedGroup();
 new RelatedPostsQuery();
+new CssLocalProps();
 ```
 
 ## Coexistence

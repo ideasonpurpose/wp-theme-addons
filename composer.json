@@ -29,7 +29,8 @@
   "autoload": {
     "psr-4": {
       "IdeasOnPurpose\\WP\\Theme\\Addons\\Block\\Variation\\Group\\LinkedGroup\\": "editor/block/variation/Group/LinkedGroup/",
-      "IdeasOnPurpose\\WP\\Theme\\Addons\\Block\\Variation\\Query\\RelatedPostsQuery\\": "editor/block/variation/Query/RelatedPostsQuery/"
+      "IdeasOnPurpose\\WP\\Theme\\Addons\\Block\\Variation\\Query\\RelatedPostsQuery\\": "editor/block/variation/Query/RelatedPostsQuery/",
+      "IdeasOnPurpose\\WP\\Theme\\Addons\\CssLocalProps\\": "CssLocalProps/"
     }
   }
 }
