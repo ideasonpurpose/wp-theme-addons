@@ -25,8 +25,8 @@ class LinkedGroup
 
     public function enqueue_styles()
     {
-        $css_file = __DIR__ . '/linked-group-front-end.css';
-        $css_url = home_url(str_replace(wp_normalize_path(ABSPATH), '', wp_normalize_path($css_file)));
+        $css_file = __DIR__ . '/linked-group.css';
+        $css_url = home_url(str_replace(ABSPATH, '', $css_file));
         wp_enqueue_style('iop-linked-group', $css_url, [], filemtime($css_file));
     }
 
