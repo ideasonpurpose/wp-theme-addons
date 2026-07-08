@@ -1,8 +1,8 @@
 <?php
 
 /**
- * This file is part of the WordPress JS Packages.
- * @link https://github.com/ideasonpurpose/wp-js-packages
+ * This file is part of the WordPress Theme Addons.
+ * @link https://github.com/ideasonpurpose/wp-theme-addons
  */
 
 namespace IdeasOnPurpose\WP\Theme\Addons\Block\Variation\Query\RelatedPostsQuery;

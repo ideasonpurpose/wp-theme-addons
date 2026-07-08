@@ -1,8 +1,8 @@
 <?php
 
 /**
- * This file is part of the WordPress JS Packages.
- * @link https://github.com/ideasonpurpose/wp-js-packages
+ * This file is part of the WordPress Theme Addons.
+ * @link https://github.com/ideasonpurpose/wp-theme-addons
  */
 
 namespace IdeasOnPurpose\WP\Theme\Addons\Block\Variation\Group\LinkedGroup;
@@ -20,6 +20,14 @@ class LinkedGroup
          * Callbacks are per block, and cannot be specific to a single variation
          */
         add_filter('register_block_type_args', [$this, 'wrap_render_callback'], 10, 2);
+        add_action('wp_enqueue_scripts', [$this, 'enqueue_styles']);
+    }
+
+    public function enqueue_styles()
+    {
+        $css_file = __DIR__ . '/linked-group-front-end.css';
+        $css_url = home_url(str_replace(wp_normalize_path(ABSPATH), '', wp_normalize_path($css_file)));
+        wp_enqueue_style('iop-linked-group', $css_url, [], filemtime($css_file));
     }
 
     public function wrap_render_callback($args, $block_type)

@@ -2,8 +2,8 @@ import { registerBlockVariation } from "@wordpress/blocks";
 import { addFilter } from "@wordpress/hooks";
 import { SVG, Path } from "@wordpress/primitives";
 
-import { usePublicPostTypes } from "../../../lib/use-public-post-types.js";
-import { usePublicTaxonomies } from "../../../lib/use-public-taxonomies.js";
+import { usePublicPostTypes } from "../../../../../lib/use-public-post-types.js";
+import { usePublicTaxonomies } from "../../../../../lib/use-public-taxonomies.js";
 
 import { createHigherOrderComponent } from "@wordpress/compose";
 

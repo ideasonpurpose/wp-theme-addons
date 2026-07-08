@@ -1,4 +1,4 @@
-# WordPress JS Packages
+# WordPress Theme Addons
 
 #### Version 0.1.1
 
@@ -47,26 +47,6 @@ Then run:
 npm install
 ```
 
-### Usage in Code
-
-Import one of the included packages into **editor.js** or whatever script loads in your editor:
-
-```javascript
-// @link https://github.com/ideasonpurpose/wp-theme-addons
-import { initLinkedGroupBlock } from "@ideasonpurpose/wp-theme-addons";
-
-// Instantiate the function
-initLinkedGroupBlock();
-```
-
-Also add the matching Sass frontend styles:
-
-```scss
-// Import linked-group-front-end styles
-// @link https://github.com/ideasonpurpose/wp-theme-addons
-@use "@ideasonpurpose/wp-theme-addons/editor/block/variation/group-linked-group/linked-group-front-end";
-```
-
 ### Composer
 
 Add the VCS repository and require the package in your project's `composer.json`:
@@ -91,12 +71,82 @@ Then run:
 composer install
 ```
 
-#### Usage in PHP
+## Usage
+
+### JavaScript
+
+Import one of the included packages into **editor.js** or whatever script loads in your editor:
+
+```javascript
+// @link https://github.com/ideasonpurpose/wp-theme-addons
+import { initLinkedGroupBlock } from "@ideasonpurpose/wp-theme-addons";
+
+// Instantiate the function
+initLinkedGroupBlock();
+```
+
+Also add the matching Sass frontend styles:
+
+```scss
+// Import linked-group-front-end styles
+// @link https://github.com/ideasonpurpose/wp-theme-addons
+@use "@ideasonpurpose/wp-theme-addons/editor/block/variation/group-linked-group/linked-group-front-end";
+```
+
+### PHP
 
 ```php
-use IdeasOnPurpose\WP\Theme\Addons\Block\Variation\GroupLinkedGroup\LinkedGroup;
-use IdeasOnPurpose\WP\Theme\Addons\Block\Variation\QueryRelatedPosts\RelatedPostsQueryBlock;
+use IdeasOnPurpose\WP\Theme\Addons\Block\Variation\Group\LinkedGroup\LinkedGroup;
+use IdeasOnPurpose\WP\Theme\Addons\Block\Variation\Query\RelatedPostsQuery\RelatedPostsQuery;
 
 new LinkedGroup();
-new RelatedPostsQueryBlock();
+new RelatedPostsQuery();
 ```
+
+
+
+## Coexistence
+
+npm and Composer operate independently in the same repository:
+
+| | npm | Composer |
+|---|---|---|
+| **Config** | `package.json` | `composer.json` |
+| **Package name** | `@ideasonpurpose/wp-theme-addons` | `ideasonpurpose/wp-theme-addons` |
+| **Installs to** | `node_modules/` | `vendor/` |
+| **Serves** | JS + SCSS | PHP |
+| **Imports resolve via** | npm package name | PSR-4 autoloading |
+
+No conflicts: separate config files, separate dependency directories, separate language ecosystems.
+
+```mermaid
+graph TD
+    subgraph REPO["Single Git Repository: ideasonpurpose/wp-theme-addons"]
+        PJ[package.json]
+        CJ[composer.json]
+        JS[JS + SCSS files]
+        PHP[PHP files]
+    end
+
+    subgraph NPM_CONSUMER["npm Consumer Project"]
+        NPJ[package.json]
+        NM[node_modules/]
+    end
+
+    subgraph COMPOSER_CONSUMER["Composer Consumer Project"]
+        CPJ[composer.json]
+        VD[vendor/]
+    end
+
+    NPJ -- "npm install" --> PJ
+    PJ -- "resolves to" --> NM
+    JS -- "import from" --> NM
+
+    CPJ -- "composer require" --> CJ
+    CJ -- "resolves to" --> VD
+    PHP -- "PSR-4 autoload" --> VD
+```
+
+- **npm** reads `package.json` → installs to `node_modules/` → JS/SCSS imports resolve via `@ideasonpurpose/wp-theme-addons`
+- **Composer** reads `composer.json` → installs to `vendor/` → PHP classes autoload via PSR-4
+- No conflicts: separate config files, separate dependency directories, separate language ecosystems.
