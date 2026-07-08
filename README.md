@@ -41,12 +41,6 @@ Or in `package.json`:
 }
 ```
 
-Then run:
-
-```bash
-npm install
-```
-
 ### Composer
 
 Add the VCS repository and require the package in your project's `composer.json`:
@@ -63,12 +57,6 @@ Add the VCS repository and require the package in your project's `composer.json`
         "ideasonpurpose/wp-theme-addons": "dev-main"
     }
 }
-```
-
-Then run:
-
-```sh
-composer install
 ```
 
 ## Usage
@@ -103,19 +91,17 @@ new LinkedGroup();
 new RelatedPostsQuery();
 ```
 
-
-
 ## Coexistence
 
 npm and Composer operate independently in the same repository:
 
-| | npm | Composer |
-|---|---|---|
-| **Config** | `package.json` | `composer.json` |
-| **Package name** | `@ideasonpurpose/wp-theme-addons` | `ideasonpurpose/wp-theme-addons` |
-| **Installs to** | `node_modules/` | `vendor/` |
-| **Serves** | JS + SCSS | PHP |
-| **Imports resolve via** | npm package name | PSR-4 autoloading |
+|                         | npm                               | Composer                         |
+| ----------------------- | --------------------------------- | -------------------------------- |
+| **Config**              | `package.json`                    | `composer.json`                  |
+| **Package name**        | `@ideasonpurpose/wp-theme-addons` | `ideasonpurpose/wp-theme-addons` |
+| **Installs to**         | `node_modules/`                   | `vendor/`                        |
+| **Serves**              | JS + SCSS                         | PHP                              |
+| **Imports resolve via** | npm package name                  | PSR-4 autoloading                |
 
 No conflicts: separate config files, separate dependency directories, separate language ecosystems.
 
