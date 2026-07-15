@@ -1,6 +1,6 @@
 # WordPress Theme Addons
 
-#### Version 0.2.0
+#### Version 0.2.1
 
 This repository contains JavaScript add-ons for the WordPress Block Editor. The project is currently private and under continual development.
 
