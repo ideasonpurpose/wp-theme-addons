@@ -43,11 +43,17 @@ class LinkedGroup
     public function wrapped_render_callback($attributes, $content, $block)
     {
         global $post;
-        $blockHTML = $content;
 
         if (($attributes['namespace'] ?? null) !== $this->variationNamespace) {
-            return $blockHTML;
+            return $content;
         }
+
+        // Ensure the wrapper has the correct namespace
+        $tags = new \WP_HTML_Tag_Processor($content);
+        if ($tags->next_tag()) {
+            $tags->add_class('iop-linked-group');
+        }
+        $blockHTML = $tags->get_updated_html();
 
         if (!isset($attributes['linkToSelf']) && !isset($attributes['url'])) {
             return $blockHTML;
@@ -61,6 +67,7 @@ class LinkedGroup
         $target = isset($attributes['linkTarget'])
             ? ' target="' . esc_attr($attributes['linkTarget']) . '"'
             : '';
+
         $rel = isset($attributes['rel']) ? ' rel="' . esc_attr($attributes['rel']) . '"' : '';
 
         $linkHTML = sprintf(

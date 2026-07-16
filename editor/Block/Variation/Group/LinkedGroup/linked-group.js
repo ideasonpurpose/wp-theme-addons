@@ -64,6 +64,7 @@ export function initLinkedGroupBlock() {
     description: "Group block with link support",
     attributes: {
       namespace: "ideasonpurpose/group-linked",
+      className: "iop-linked-group",
       url: "",
       opensInNewTab: false,
       linkToSelf: false,
