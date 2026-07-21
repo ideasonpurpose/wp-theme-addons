@@ -1,6 +1,6 @@
 {
   "name": "@ideasonpurpose/wp-theme-addons",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "WordPress Block Editor add-ons — JavaScript blocks, utilities, and PHP components",
   "keywords": [
     "wordpress",

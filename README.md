@@ -1,6 +1,6 @@
 # WordPress Theme Addons
 
-#### Version 0.2.2
+#### Version 0.3.0
 
 [![NPM Version](https://img.shields.io/npm/v/%40ideasonpurpose%2Fwp-theme-addons?logo=npm)](https://www.npmjs.com/package/@ideasonpurpose/wp-theme-addons)
 [![Packagist](https://badgen.net/packagist/v/ideasonpurpose/wp-theme-addons)](https://packagist.org/packages/ideasonpurpose/wp-theme-addons)
