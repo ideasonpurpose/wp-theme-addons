@@ -170,3 +170,15 @@ graph TD
 - **npm** reads `package.json` → installs to `node_modules/` → JS/SCSS imports resolve via `@ideasonpurpose/wp-theme-addons`
 - **Composer** reads `composer.json` → installs to `vendor/` → PHP classes autoload via PSR-4
 - No conflicts: separate config files, separate dependency directories, separate language ecosystems.
+
+
+<!-- START IOP CREDIT BLURB 2026-07-->
+
+## &nbsp;
+
+#### Brought to you by IOP
+
+| <a href="https://www.ideasonpurpose.com"><img src="https://raw.githubusercontent.com/ideasonpurpose/ideasonpurpose/master/iop-logo-white-on-black-88px.png" width="44" height="44" align="top" alt="IOP Logo"></a> | This project is actively developed and used in production at <a href="https://www.ideasonpurpose.com">Ideas On Purpose</a>. |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+
+<!-- END IOP CREDIT BLURB -->
