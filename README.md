@@ -3,6 +3,8 @@
 #### Version 0.2.2
 
 [![NPM Version](https://img.shields.io/npm/v/%40ideasonpurpose%2Fwp-theme-addons?logo=npm)](https://www.npmjs.com/package/@ideasonpurpose/wp-theme-addons)
+[![Packagist](https://badgen.net/packagist/v/ideasonpurpose/wp-theme-addons)](https://packagist.org/packages/ideasonpurpose/wp-theme-addons)
+
 
 This repository contains JavaScript and PHP add-ons for the WordPress Block Editor and Hybrid themes. The project is used in production, but is under active development and implementations are likely to change. 
 
