@@ -1,8 +1,18 @@
 {
   "name": "@ideasonpurpose/wp-theme-addons",
   "version": "0.2.2",
-  "description": "",
-  "keywords": [],
+  "description": "WordPress Block Editor add-ons — JavaScript blocks, utilities, and PHP components",
+  "keywords": [
+    "wordpress",
+    "gutenberg",
+    "block-editor",
+    "block-variation",
+    "themes"
+  ],
+  "homepage": "https://github.com/ideasonpurpose/wp-theme-addons",
+  "bugs": {
+    "url": "https://github.com/ideasonpurpose/wp-theme-addons/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ideasonpurpose/wp-theme-addons.git"
@@ -10,11 +20,24 @@
   "license": "ISC",
   "author": "Ideas On Purpose (https://www.ideasonpurpose.com/)",
   "contributors": [
-    "Joe Maller <joe@ideasonpurpose.com>"
+    {
+      "name": "Joe Maller",
+      "email": "joe@ideasonpurpose.com"
+    }
   ],
   "type": "module",
   "exports": "./index.js",
   "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "index.js",
+    "lib",
+    "editor",
+    "CssLocalProps",
+    "README.md"
+  ],
   "scripts": {
     "version": "version-everything  && git add -u"
   },
@@ -22,7 +45,6 @@
   "stylelint": {
     "extends": "@ideasonpurpose/stylelint-config"
   },
-  "dependencies": {},
   "devDependencies": {
     "@ideasonpurpose/prettier-config": "^1.1.1",
     "@ideasonpurpose/stylelint-config": "^1.1.6",

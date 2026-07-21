@@ -3,9 +3,22 @@
   "description": "WordPress Block Editor add-ons — JavaScript blocks, utilities, and PHP components",
   "type": "library",
   "license": "ISC",
+  "keywords": [
+    "wordpress",
+    "gutenberg",
+    "block-editor",
+    "block-variation",
+    "themes"
+  ],
+  "homepage": "https://github.com/ideasonpurpose/wp-theme-addons",
+  "support": {
+    "issues": "https://github.com/ideasonpurpose/wp-theme-addons/issues",
+    "source": "https://github.com/ideasonpurpose/wp-theme-addons"
+  },
   "authors": [
     {
       "name": "Ideas On Purpose",
+      "email": "joe@ideasonpurpose.com",
       "homepage": "https://www.ideasonpurpose.com/"
     }
   ],
@@ -17,20 +30,23 @@
       "ext-intl": "0"
     }
   },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/ideasonpurpose/wp-related-posts"
-    }
-  ],
-  "require": {
-    "ideasonpurpose/wp-related-posts": "dev-main"
-  },
+  "require": {},
   "autoload": {
     "psr-4": {
+      "IdeasOnPurpose\\WP\\": "lib/RelatedPosts/",
       "IdeasOnPurpose\\WP\\Theme\\Addons\\Block\\Variation\\Group\\LinkedGroup\\": "editor/Block/Variation/Group/LinkedGroup/",
       "IdeasOnPurpose\\WP\\Theme\\Addons\\Block\\Variation\\Query\\RelatedPostsQuery\\": "editor/Block/Variation/Query/RelatedPostsQuery/",
       "IdeasOnPurpose\\WP\\Theme\\Addons\\CssLocalProps\\": "CssLocalProps/"
     }
+  },
+  "archive": {
+    "exclude": [
+      "/.git",
+      "/.vscode",
+      "/node_modules",
+      "/package.json",
+      "/package-lock.json",
+      "/AGENTS.md"
+    ]
   }
 }

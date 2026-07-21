@@ -4,68 +4,12 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b5bf790274203cf033e97eca4332097f",
-    "packages": [
-        {
-            "name": "ideasonpurpose/wp-related-posts",
-            "version": "dev-main",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ideasonpurpose/wp-related-posts.git",
-                "reference": "0509c5bb70140a7693389761b134aa21c079e2e6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ideasonpurpose/wp-related-posts/zipball/0509c5bb70140a7693389761b134aa21c079e2e6",
-                "reference": "0509c5bb70140a7693389761b134aa21c079e2e6",
-                "shasum": ""
-            },
-            "require-dev": {
-                "ideasonpurpose/wp-test-stubs": "dev-main@dev",
-                "php-stubs/wordpress-stubs": "^6",
-                "phpunit/phpunit": "^12"
-            },
-            "default-branch": true,
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "IdeasOnPurpose\\WP\\": "src"
-                }
-            },
-            "archive": {
-                "exclude": [
-                    "/.git*",
-                    "/tests",
-                    "CHANGELOG.md",
-                    "docker-compose.yml",
-                    "package*",
-                    "phpunit.xml"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Joe Maller",
-                    "email": "joe@ideasonpurpose.com",
-                    "homepage": "https://www.ideasonpurpose.com"
-                }
-            ],
-            "description": "Library for gathering related posts based on various weightings",
-            "support": {
-                "source": "https://github.com/ideasonpurpose/wp-related-posts/tree/main",
-                "issues": "https://github.com/ideasonpurpose/wp-related-posts/issues"
-            },
-            "time": "2025-12-30T03:11:28+00:00"
-        }
-    ],
+    "content-hash": "e08b8f49695522477a2e574ddc2c60fa",
+    "packages": [],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "ideasonpurpose/wp-related-posts": 20
-    },
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {},

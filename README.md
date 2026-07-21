@@ -2,7 +2,9 @@
 
 #### Version 0.2.2
 
-This repository contains JavaScript add-ons for the WordPress Block Editor. The project is currently private and under continual development.
+[![NPM Version](https://img.shields.io/npm/v/%40ideasonpurpose%2Fwp-theme-addons?logo=npm)](https://www.npmjs.com/package/@ideasonpurpose/wp-theme-addons)
+
+This repository contains JavaScript and PHP add-ons for the WordPress Block Editor and Hybrid themes. The project is used in production, but is under active development and implementations are likely to change. 
 
 ## What's in here
 
@@ -14,7 +16,7 @@ A variation on the Group block which adds standard Link controls. The link imple
 
 #### Related Posts Query
 
-A variation on the Query Loop block which replaces the query with content from IOP's [WordPress Related Posts](https://github.com/ideasonpurpose/wp-related-posts) library.
+A variation on the Query Loop block which replaces the query with ranked related posts. Ranking lives in `lib/RelatedPosts` (`IdeasOnPurpose\WP\RelatedPosts`) — weighted shared taxonomies, post type, and recency, with optional REST at `GET /wp-json/ideasonpurpose/v1/related_posts/{id}`.
 
 ### CSS Local Props
 
@@ -51,7 +53,7 @@ A few utility classes are exported. `usePublicPostTypes` and `usePublicTaxonomie
 ### npm
 
 ```sh
-npm install git+ssh://git@github.com:ideasonpurpose/wp-theme-addons.git
+npm install @ideasonpurpose/wp-theme-addons
 ```
 
 Or in `package.json`:
@@ -59,7 +61,7 @@ Or in `package.json`:
 ```json
 {
   "dependencies": {
-    "@ideasonpurpose/wp-theme-addons": "git+ssh://git@github.com:ideasonpurpose/wp-theme-addons.git"
+    "@ideasonpurpose/wp-theme-addons": "^0.2.2"
   }
 }
 ```
@@ -108,13 +110,17 @@ Also add the matching Sass frontend styles:
 ### PHP
 
 ```php
+use IdeasOnPurpose\WP\RelatedPosts;
 use IdeasOnPurpose\WP\Theme\Addons\Block\Variation\Group\LinkedGroup\LinkedGroup;
 use IdeasOnPurpose\WP\Theme\Addons\Block\Variation\Query\RelatedPostsQuery\RelatedPostsQuery;
 use IdeasOnPurpose\WP\Theme\Addons\CssLocalProps\CssLocalProps;
 
 new LinkedGroup();
-new RelatedPostsQuery();
+new RelatedPostsQuery(); // also loads RelatedPosts for ranking + REST
 new CssLocalProps();
+
+// Optional: use the ranker directly
+// $posts = (new RelatedPosts())->get(['post' => $id, 'posts_per_page' => 4]);
 ```
 
 ## Coexistence
