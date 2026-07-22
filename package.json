@@ -28,11 +28,13 @@
   "type": "module",
   "exports": "./index.js",
   "main": "index.js",
+  "types": "index.d.ts",
   "directories": {
     "lib": "lib"
   },
   "files": [
     "index.js",
+    "index.d.ts",
     "lib",
     "editor",
     "CssLocalProps",
