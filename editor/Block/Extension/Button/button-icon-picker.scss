@@ -1,0 +1,65 @@
+// Button Icon Picker — generic front-end + editor boilerplate.
+//
+// Pairs with editor/Block/Extension/Button/button-icon-picker.js, which writes
+// `iop-button-icon icon-{name}` classes onto the core/button wrapper.
+//
+// The ::before element renders the glyph via `mask-image`. Each icon needs a
+// corresponding mask variable (usually a `url("data:image/svg+xml,...")`
+// defined by the theme), e.g.:
+//
+//   .wp-block-button.iop-button-icon.icon-arrow-right .wp-block-button__link::before {
+//     mask-image: var(--i-arrow-right);
+//   }
+//
+// Icon sizing uses `1.2em` so the glyph scales with the button's font-size.
+// Override width/height per project as needed.
+
+.wp-block-button {
+  &.iop-button-icon .wp-block-button__link {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5em;
+    align-items: center;
+
+    &.has-text-align-right {
+      flex-direction: row-reverse;
+    }
+
+    &::before {
+      content: "";
+
+      display: block;
+      flex-shrink: 0;
+      width: 1.2em;
+      height: 1.2em;
+
+      background: currentColor;
+
+      mask-repeat: no-repeat;
+      mask-size: contain;
+      mask-position: center;
+    }
+  }
+}
+
+// Example icon rules, add these to the active theme.
+// vars represent SVG files loaded with url() like this
+//      :root {
+//        --i-arrow-right: url("../svg/arrow-right.svg");
+//      }
+//
+// .wp-block-button {
+//   &.iop-button-icon {
+//     &.icon-arrow-right .wp-block-button__link::before {
+//       mask-image: var(--i-arrow-right);
+//     }
+//
+//     &.icon-mail .wp-block-button__link::before {
+//       mask-image: var(--i-mail);
+//     }
+//
+//     &.icon-download .wp-block-button__link::before {
+//       mask-image: var(--i-download);
+//     }
+//   }
+// }

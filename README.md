@@ -5,8 +5,7 @@
 [![NPM Version](https://img.shields.io/npm/v/%40ideasonpurpose%2Fwp-theme-addons?logo=npm)](https://www.npmjs.com/package/@ideasonpurpose/wp-theme-addons)
 [![Packagist](https://badgen.net/packagist/v/ideasonpurpose/wp-theme-addons)](https://packagist.org/packages/ideasonpurpose/wp-theme-addons)
 
-
-This repository contains JavaScript and PHP add-ons for the WordPress Block Editor and Hybrid themes. The project is used in production, but is under active development and implementations are likely to change. 
+This repository contains JavaScript and PHP add-ons for the WordPress Block Editor and Hybrid themes. The project is used in production, but is under active development and implementations are likely to change.
 
 ## What's in here
 
@@ -19,6 +18,33 @@ A variation on the Group block which adds standard Link controls. The link imple
 #### Related Posts Query
 
 A variation on the Query Loop block which replaces the query with ranked related posts. Ranking lives in `lib/RelatedPosts` (`IdeasOnPurpose\WP\RelatedPosts`) — weighted shared taxonomies, post type, and recency, with optional REST at `GET /wp-json/ideasonpurpose/v1/related_posts/{id}`.
+
+### Block Extensions
+
+#### Button Icons
+
+This extension adds an icon-picker to the `core/button` block. Markup is unchanged, icons are specified by adding classes. Classes are added in the Block Editor as well as the front end, so authors can work with a true representation of the final button.
+
+```javascript
+import { initButtonIconPicker } from "@ideasonpurpose/wp-theme-addons";
+
+initButtonIconPicker(
+  [
+    { label: "Arrow Right", value: "arrow-right" },
+    { label: "Mail", value: "mail" },
+    { label: "Download", value: "download" },
+  ],
+  "arrow-right", // optional default icon, defaults to ""
+);
+```
+
+Icons are displayed using CSS in the theme. Each icon maps to a mask variable the theme defines:
+
+```css
+.wp-block-button.iop-button-icon.icon-arrow-right .wp-block-button__link::before {
+  mask-image: var(--i-arrow-right);
+}
+```
 
 ### CSS Local Props
 
@@ -90,23 +116,15 @@ Add the VCS repository and require the package in your project's `composer.json`
 
 ### JavaScript
 
-Import one of the included packages into **editor.js** or whatever script loads in your editor:
+Import into **editor.js**. Minimal required styles are bundled with the JS:
 
 ```javascript
 // @link https://github.com/ideasonpurpose/wp-theme-addons
-import { initLinkedGroupBlock, initCssLocalProps } from "@ideasonpurpose/wp-theme-addons";
+import { initLinkedGroupBlock, initCssLocalProps, initButtonIconPicker } from "@ideasonpurpose/wp-theme-addons";
 
-// Instantiate the function
 initLinkedGroupBlock();
 initCssLocalProps();
-```
-
-Also add the matching Sass frontend styles:
-
-```scss
-// Import linked-group-front-end styles
-// @link https://github.com/ideasonpurpose/wp-theme-addons
-@use "@ideasonpurpose/wp-theme-addons/editor/block/variation/group-linked-group/linked-group-front-end";
+initButtonIconPicker([...]);
 ```
 
 ### PHP
@@ -171,7 +189,6 @@ graph TD
 - **Composer** reads `composer.json` → installs to `vendor/` → PHP classes autoload via PSR-4
 - No conflicts: separate config files, separate dependency directories, separate language ecosystems.
 
-
 <!-- START IOP CREDIT BLURB 2026-07-->
 
 ## &nbsp;
@@ -179,6 +196,6 @@ graph TD
 #### Brought to you by IOP
 
 | <a href="https://www.ideasonpurpose.com"><img src="https://raw.githubusercontent.com/ideasonpurpose/ideasonpurpose/master/iop-logo-white-on-black-88px.png" width="44" height="44" align="top" alt="IOP Logo"></a> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | This project is actively developed and used in production at <a href="https://www.ideasonpurpose.com">Ideas On Purpose</a>. <br>&nbsp; |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
 
 <!-- END IOP CREDIT BLURB -->
