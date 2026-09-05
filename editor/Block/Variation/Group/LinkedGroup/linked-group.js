@@ -1,11 +1,12 @@
 // @ts-check
 
+import "./linked-group.scss";
 import {
   BlockControls,
   InspectorControls,
   LinkControl,
 } from "@wordpress/block-editor";
-import { registerBlockVariation, createBlock } from "@wordpress/blocks";
+import { createBlock, registerBlockVariation } from "@wordpress/blocks";
 import {
   ExternalLink,
   Popover,
@@ -17,12 +18,11 @@ import {
   __experimentalToolsPanelItem as ToolsPanelItem,
 } from "@wordpress/components";
 import { createHigherOrderComponent } from "@wordpress/compose";
-import { useState } from "@wordpress/element";
-import { addFilter } from "@wordpress/hooks";
-import { SVG, Path } from "@wordpress/primitives";
-import { __ } from "@wordpress/i18n";
 // import { select, useSelect, withSelect } from "@wordpress/data";
-import { createInterpolateElement } from "@wordpress/element";
+import { createInterpolateElement, useState } from "@wordpress/element";
+import { addFilter } from "@wordpress/hooks";
+import { __ } from "@wordpress/i18n";
+import { Path, SVG } from "@wordpress/primitives";
 
 export default {};
 
@@ -270,7 +270,6 @@ const makeSaveElement = (element, blockType, attributes) => {
   }
 
   const href = linkToSelf ? "#__LINKED_GROUP_PLACEHOLDER__" : url;
-
 
   const link = (
     <a

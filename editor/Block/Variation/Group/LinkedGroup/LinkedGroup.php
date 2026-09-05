@@ -20,14 +20,6 @@ class LinkedGroup
          * Callbacks are per block, and cannot be specific to a single variation
          */
         add_filter('register_block_type_args', [$this, 'wrap_render_callback'], 10, 2);
-        add_action('wp_enqueue_scripts', [$this, 'enqueue_styles']);
-    }
-
-    public function enqueue_styles()
-    {
-        $css_file = __DIR__ . '/linked-group.css';
-        $css_url = home_url(str_replace(ABSPATH, '', $css_file));
-        wp_enqueue_style('iop-linked-group', $css_url, [], filemtime($css_file));
     }
 
     public function wrap_render_callback($args, $block_type)

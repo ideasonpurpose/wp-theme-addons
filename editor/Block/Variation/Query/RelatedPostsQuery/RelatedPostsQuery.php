@@ -74,7 +74,7 @@ class RelatedPostsQuery
         global $post;
         $postTypes = $request->get_param('postTypes') ?? [];
         $weights = $request->get_param('weights') ?? [];
-        $relatedPost = $request->get_param('relatedPost') ?? ($post->ID ?? 0);
+        $relatedPost = $request->get_param('relatedPost') ?? $post->ID ?? 0;
 
         if ($weights) {
             $rpArgs = [

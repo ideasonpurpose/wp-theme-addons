@@ -1,7 +1,7 @@
 // @ts-check
 
-import { addFilter } from "@wordpress/hooks";
 import { createHigherOrderComponent } from "@wordpress/compose";
+import { addFilter } from "@wordpress/hooks";
 
 /**
  * Helper function to convert theme.json named colors to CSS variables.

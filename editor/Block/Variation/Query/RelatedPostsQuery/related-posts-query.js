@@ -1,24 +1,20 @@
-import { registerBlockVariation } from "@wordpress/blocks";
-import { addFilter } from "@wordpress/hooks";
-import { SVG, Path } from "@wordpress/primitives";
-
-import { usePublicPostTypes } from "../../../../../lib/use-public-post-types.js";
-import { usePublicTaxonomies } from "../../../../../lib/use-public-taxonomies.js";
-
-import { createHigherOrderComponent } from "@wordpress/compose";
-
-import { store as coreStore } from "@wordpress/core-data";
-import { store as editorStore } from "@wordpress/editor";
-
 import { InspectorControls } from "@wordpress/block-editor";
-import { select } from "@wordpress/data";
+import { registerBlockVariation } from "@wordpress/blocks";
 import {
+  PanelBody,
   RangeControl,
   SelectControl,
   Spinner,
   Tip,
-  PanelBody,
 } from "@wordpress/components";
+import { createHigherOrderComponent } from "@wordpress/compose";
+import { store as coreStore } from "@wordpress/core-data";
+import { select } from "@wordpress/data";
+import { store as editorStore } from "@wordpress/editor";
+import { addFilter } from "@wordpress/hooks";
+import { Path, SVG } from "@wordpress/primitives";
+import { usePublicPostTypes } from "../../../../../lib/use-public-post-types.js";
+import { usePublicTaxonomies } from "../../../../../lib/use-public-taxonomies.js";
 
 const icon = (
   <SVG
