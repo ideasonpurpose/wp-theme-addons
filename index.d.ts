@@ -1,3 +1,5 @@
+declare module "*.scss" {}
+
 declare module "@ideasonpurpose/wp-theme-addons" {
   interface WP_Post_Type {
     slug: string;
@@ -24,7 +26,11 @@ declare module "@ideasonpurpose/wp-theme-addons" {
   export function usePublicPostTypes(): WP_Post_Type[] | undefined;
   export function usePublicTaxonomies(): WP_Taxonomy[] | undefined;
 
+  export function initButtonIconPicker(
+    icons?: { label?: string; value: string }[],
+    defaultIcon?: string,
+  ): void;
+  export function initCssLocalProps(blockNames?: string[]): void;
   export function initLinkedGroupBlock(): void;
   export function initRelatedPostsQueryBlock(): void;
-  export function initCssLocalProps(blockNames?: string[]): void;
 }
