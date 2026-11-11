@@ -1,6 +1,6 @@
 // @ts-check
 
-import "./linked-group.scss";
+import "./linked-group.css";
 import {
   BlockControls,
   InspectorControls,

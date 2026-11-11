@@ -15,9 +15,11 @@ This repository contains JavaScript and PHP add-ons for the WordPress Block Edit
 
 A variation on the Group block which adds standard Link controls. The link implementation uses ideas from [Accessible cards](https://kittygiraudel.com/2022/04/02/accessible-cards/) and [Inclusive Components: Cards](https://inclusive-components.design/cards/).
 
+`new LinkedGroup()` wraps the `core/group` render callback and, when the variation has a URL, appends an empty overlay link inside the group. The stretch-link rules live in `editor/Block/Variation/Group/LinkedGroup/linked-group.css`. The editor script imports that file. PHP reads the same file and inlines it on the `iop-linked-group` handle from `wp_enqueue_scripts`, so the rules print in the head. No theme copy is required.
+
 #### Related Posts Query
 
-A variation on the Query Loop block which replaces the query with ranked related posts. Ranking lives in `lib/RelatedPosts` (`IdeasOnPurpose\WP\RelatedPosts`) — weighted shared taxonomies, post type, and recency, with optional REST at `GET /wp-json/ideasonpurpose/v1/related_posts/{id}`.
+A variation on the Query Loop block which replaces the query with ranked related posts. Ranking lives in `lib/RelatedPosts` (`IdeasOnPurpose\WP\RelatedPosts`) — weighted shared taxonomies, post type, and recency, with optional REST at `GET /wp-json/ideasonpurpose/v1/related_posts/{id}` (see [PHP usage](#php) to enable it).
 
 ### Block Extensions
 
@@ -50,7 +52,7 @@ Icons are displayed using CSS in the theme. Each icon maps to a mask variable th
 
 Injects block color attributes as CSS custom properties (`--local-text-color`, `--local-bg-color`, `--local-border-color`) so theme styles can use them.
 
-This feature include a pair of front-end and block editor files:
+This feature includes a pair of front-end and block editor files:
 
 | File                               | Runtime                           | Role                                                                                                                                                                |
 | ---------------------------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -67,9 +69,11 @@ add_filter('iop/add_css_local_props_allowed_blocks', fn() => ['core/button', 'co
 
 Both sides must stay in sync: enable PHP for frontend output and call `initCssLocalProps()` in the editor bundle so the canvas matches the saved markup.
 
+The PHP block list is localized to the script handle `{stylesheet}-editor` (from `get_stylesheet()`). If the theme's editor script uses a different handle, or is enqueued after `enqueue_block_editor_assets` priority 10, the editor falls back to `core/button`. Pass the list to `initCssLocalProps(['core/button', 'core/group'])` directly in that case.
+
 ### Utilities
 
-A few utility classes are exported. `usePublicPostTypes` and `usePublicTaxonomies` are direct lifts from the [WordPress Gutenberg source code](https://github.com/WordPress/gutenberg/blob/e90c88fee31120e0091e044c149f8b4f5f947f4a/packages/edit-site/src/components/add-new-template/utils.js#L91-L125). These functions are useful for pre-populating a WordPress data-store with all PostType and Taxonomy data for use in interfaces or block rendering.
+A few utility hooks are exported. `usePublicPostTypes` and `usePublicTaxonomies` are direct lifts from the [WordPress Gutenberg source code](https://github.com/WordPress/gutenberg/blob/e90c88fee31120e0091e044c149f8b4f5f947f4a/packages/edit-site/src/components/add-new-template/utils.js#L91-L125). These functions are useful for pre-populating a WordPress data-store with all PostType and Taxonomy data for use in interfaces or block rendering.
 
 ## Installation
 
@@ -89,7 +93,7 @@ Or in `package.json`:
 ```json
 {
   "dependencies": {
-    "@ideasonpurpose/wp-theme-addons": "^0.2.2"
+    "@ideasonpurpose/wp-theme-addons": "^0.4.0"
   }
 }
 ```
@@ -120,12 +124,20 @@ Import into **editor.js**. Minimal required styles are bundled with the JS:
 
 ```javascript
 // @link https://github.com/ideasonpurpose/wp-theme-addons
-import { initLinkedGroupBlock, initCssLocalProps, initButtonIconPicker } from "@ideasonpurpose/wp-theme-addons";
+import {
+  initButtonIconPicker,
+  initCssLocalProps,
+  initLinkedGroupBlock,
+  initRelatedPostsQueryBlock,
+} from "@ideasonpurpose/wp-theme-addons";
 
 initLinkedGroupBlock();
+initRelatedPostsQueryBlock();
 initCssLocalProps();
 initButtonIconPicker([...]);
 ```
+
+The package ships untranspiled source: `.js` files contain JSX and import `.scss` files. The theme's build must transpile JSX and compile Sass for this package inside `node_modules`. `@wordpress/*` packages are expected to be provided as externals by the theme's build (for example `@wordpress/scripts`).
 
 ### PHP
 
@@ -136,12 +148,17 @@ use IdeasOnPurpose\WP\Theme\Addons\Block\Variation\Query\RelatedPostsQuery\Relat
 use IdeasOnPurpose\WP\Theme\Addons\CssLocalProps\CssLocalProps;
 
 new LinkedGroup();
-new RelatedPostsQuery(); // also loads RelatedPosts for ranking + REST
+new RelatedPostsQuery(); // uses RelatedPosts for ranking
 new CssLocalProps();
+
+// Optional: enables the REST endpoint. Must run before `rest_api_init`, e.g. in functions.php
+new RelatedPosts();
 
 // Optional: use the ranker directly
 // $posts = (new RelatedPosts())->get(['post' => $id, 'posts_per_page' => 4]);
 ```
+
+PHP components require WordPress 6.2 or later (`WP_HTML_Tag_Processor`).
 
 ## Coexistence
 

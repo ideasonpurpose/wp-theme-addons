@@ -20,6 +20,7 @@ class LinkedGroup
          * Callbacks are per block, and cannot be specific to a single variation
          */
         add_filter('register_block_type_args', [$this, 'wrap_render_callback'], 10, 2);
+        add_action('wp_enqueue_scripts', [$this, 'enqueue_styles']);
     }
 
     public function wrap_render_callback($args, $block_type)
@@ -72,5 +73,27 @@ class LinkedGroup
         $blockHTML = preg_replace('/<\/div>$/', $linkHTML . '</div>', $blockHTML);
 
         return $blockHTML;
+    }
+
+    /**
+     * Inline the same CSS the editor imports. Construction is the opt-in,
+     * so this runs on wp_enqueue_scripts and prints in the head.
+     */
+    public function enqueue_styles()
+    {
+        static $done = false;
+        if ($done) {
+            return;
+        }
+        $done = true;
+
+        $css = file_get_contents(__DIR__ . '/linked-group.css');
+        if (!$css) {
+            return;
+        }
+
+        wp_register_style('iop-linked-group', false);
+        wp_add_inline_style('iop-linked-group', $css);
+        wp_enqueue_style('iop-linked-group');
     }
 }
