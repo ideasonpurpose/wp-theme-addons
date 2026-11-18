@@ -26,7 +26,16 @@
     }
   ],
   "type": "module",
-  "exports": "./index.js",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    },
+    "./carousel": {
+      "types": "./frontend/carousel.d.ts",
+      "default": "./frontend/carousel.js"
+    }
+  },
   "main": "index.js",
   "types": "index.d.ts",
   "directories": {
@@ -37,10 +46,12 @@
     "index.d.ts",
     "lib",
     "editor",
+    "frontend",
     "CssLocalProps",
     "README.md"
   ],
   "scripts": {
+    "test": "node --test test/carousel.test.js",
     "version": "version-everything  && git add -u"
   },
   "prettier": "@ideasonpurpose/prettier-config",
@@ -54,6 +65,7 @@
     "@types/wordpress__block-editor": "^15.0.6",
     "@wordpress/compose": "^8.3.0",
     "@wordpress/hooks": "^4.50.0",
+    "jsdom": "^31.0.1",
     "prettier": "^3.9.4",
     "version-everything": "^0.12.2"
   },
@@ -62,5 +74,11 @@
       "README.md"
     ],
     "prefix": "\"@ideasonpurpose/wp-theme-addons\": \"\\^"
+  },
+  "dependencies": {
+    "embla-carousel": "9.0.0-rc04",
+    "embla-carousel-accessibility": "9.0.0-rc04",
+    "embla-carousel-autoplay": "9.0.0-rc04",
+    "embla-carousel-class-names": "9.0.0-rc04"
   }
 }
