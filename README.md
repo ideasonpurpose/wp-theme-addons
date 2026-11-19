@@ -1,6 +1,6 @@
 # WordPress Theme Addons
 
-#### Version 0.5.0
+#### Version 0.5.1
 
 [![NPM Version](https://img.shields.io/npm/v/%40ideasonpurpose%2Fwp-theme-addons?logo=npm)](https://www.npmjs.com/package/@ideasonpurpose/wp-theme-addons)
 [![Packagist](https://badgen.net/packagist/v/ideasonpurpose/wp-theme-addons)](https://packagist.org/packages/ideasonpurpose/wp-theme-addons)
@@ -195,7 +195,7 @@ Or in `package.json`:
 ```json
 {
   "dependencies": {
-    "@ideasonpurpose/wp-theme-addons": "^0.5.0"
+    "@ideasonpurpose/wp-theme-addons": "^0.5.1"
   }
 }
 ```
