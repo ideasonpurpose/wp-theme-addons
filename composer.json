@@ -34,6 +34,7 @@
   "autoload": {
     "psr-4": {
       "IdeasOnPurpose\\WP\\": "lib/RelatedPosts/",
+      "IdeasOnPurpose\\WP\\Theme\\Addons\\Block\\Variation\\Group\\Carousel\\": "editor/Block/Variation/Group/Carousel/",
       "IdeasOnPurpose\\WP\\Theme\\Addons\\Block\\Variation\\Group\\LinkedGroup\\": "editor/Block/Variation/Group/LinkedGroup/",
       "IdeasOnPurpose\\WP\\Theme\\Addons\\Block\\Variation\\Query\\RelatedPostsQuery\\": "editor/Block/Variation/Query/RelatedPostsQuery/",
       "IdeasOnPurpose\\WP\\Theme\\Addons\\CssLocalProps\\": "CssLocalProps/"
@@ -46,7 +47,8 @@
       "/node_modules",
       "/package.json",
       "/package-lock.json",
-      "/AGENTS.md"
+      "/AGENTS.md",
+      "/test"
     ]
   }
 }

@@ -30,6 +30,7 @@ declare module "@ideasonpurpose/wp-theme-addons" {
     icons?: { label?: string; value: string }[],
     defaultIcon?: string,
   ): void;
+  export function initCarouselBlock(): void;
   export function initCssLocalProps(blockNames?: string[]): void;
   export function initLinkedGroupBlock(): void;
   export function initRelatedPostsQueryBlock(): void;

@@ -21,6 +21,106 @@ A variation on the Group block which adds standard Link controls. The link imple
 
 A variation on the Query Loop block which replaces the query with ranked related posts. Ranking lives in `lib/RelatedPosts` (`IdeasOnPurpose\WP\RelatedPosts`) — weighted shared taxonomies, post type, and recency, with optional REST at `GET /wp-json/ideasonpurpose/v1/related_posts/{id}` (see [PHP usage](#php) to enable it).
 
+#### Carousel
+
+Three `core/group` variations — Carousel, Viewport, and Container — plus a front-end module. Any direct child of the container is a slide (cover, group, a pattern, or the items of a query loop). The editor shows the slides for editing and does not autoplay. The front end uses [Embla Carousel 9](https://www.embla-carousel.com/).
+
+Namespaces and classes:
+
+| Piece     | Block            | Namespace                           | Class                                                    |
+| --------- | ---------------- | ----------------------------------- | -------------------------------------------------------- |
+| Carousel  | `core/group`     | `ideasonpurpose/carousel`           | `iop-carousel`                                           |
+| Viewport  | `core/group`     | `ideasonpurpose/carousel-viewport`  | `iop-carousel__viewport`                                 |
+| Container | `core/group`     | `ideasonpurpose/carousel-container` | `iop-carousel__container`                                |
+| Slide     | any direct child | —                                   | `iop-carousel__slide` is added in the browser if missing |
+
+Viewport and Container are hidden from the inserter. Insert Carousel; it starts with a viewport, a container, and two group slides. Replace those slides with whatever the site needs. For a query loop, put the loop inside the viewport and add `iop-carousel__container` to the post template. Each post item is then a slide.
+
+Settings live on the Carousel variation and are copied to data attributes when PHP renders the block. The saved group markup is unchanged. Omitted attributes use the defaults below.
+
+| Block attribute    | Data attribute  | Default                |
+| ------------------ | --------------- | ---------------------- |
+| `carouselAutoplay` | `data-autoplay` | `true`                 |
+| `carouselDuration` | `data-duration` | `6` (seconds)          |
+| `carouselArrows`   | `data-arrows`   | `true`                 |
+| `carouselDots`     | `data-dots`     | `true`                 |
+| `carouselLoop`     | `data-loop`     | `true`                 |
+| `carouselRandom`   | `data-random`   | `0` (keep every slide) |
+
+`carouselRandom` greater than 0 keeps that many slides, chosen in the browser on each visit, and removes the rest before Embla starts. That still varies when the HTML is served from a page cache.
+
+A slide can set its own `slideDuration` (seconds) in the inspector. It is saved as `data-slide-duration` on that block and overrides `carouselDuration` for that slide only.
+
+Arrow clicks and dot clicks both restart the autoplay timer. A pause button (WCAG 2.2.2) stops and resumes it. Autoplay does not start when `prefers-reduced-motion: reduce` is set, while the pointer is over the carousel, or while the carousel is off screen. Arrow keys move only the carousel that contains the focus, and they leave text fields alone.
+
+Look is custom properties on `.iop-carousel`. Override these in the theme; the structural selectors can stay alone.
+
+| Property                      | Default                    | Use                                |
+| ----------------------------- | -------------------------- | ---------------------------------- |
+| `--carousel-max-width`        | `none`                     | Viewport max width                 |
+| `--carousel-arrow-size`       | `2.75rem`                  | Previous / next hit target         |
+| `--carousel-arrow-icon-size`  | `1.25rem`                  | Icon inside the arrow              |
+| `--carousel-arrow-offset`     | `0.75rem`                  | Inset from the sides               |
+| `--carousel-arrow-color`      | `currentColor`             | Icon color                         |
+| `--carousel-arrow-bg`         | translucent `Canvas`       | Arrow and pause fill               |
+| `--carousel-arrow-radius`     | `999px`                    | Arrow and pause radius             |
+| `--carousel-arrow-shadow`     | `none`                     | Arrow and pause shadow             |
+| `--carousel-arrow-prev`       | chevron                    | `mask-image` for the previous icon |
+| `--carousel-arrow-next`       | chevron                    | `mask-image` for the next icon     |
+| `--carousel-pause-icon`       | pause bars                 | Pause icon                         |
+| `--carousel-play-icon`        | triangle                   | Play icon                          |
+| `--carousel-pause-size`       | `2.25rem`                  | Pause button                       |
+| `--carousel-dot-width`        | `0.625rem`                 | Pagination mark                    |
+| `--carousel-dot-height`       | `0.625rem`                 | Pagination mark                    |
+| `--carousel-dot-radius`       | `999px`                    | `0` makes bars                     |
+| `--carousel-dot-gap`          | `0.5rem`                   | Space between marks                |
+| `--carousel-dot-color`        | translucent `currentColor` | Inactive mark                      |
+| `--carousel-dot-active-color` | `currentColor`             | Active mark and hover              |
+| `--carousel-controls-offset`  | `1rem`                     | Distance from the bottom           |
+| `--carousel-controls-justify` | `center`                   | `flex-start` for left aligned      |
+| `--carousel-controls-padding` | `1rem`                     | Inline padding of the control row  |
+
+Embla's class-names plugin adds `is-snapped` and `is-in-view` on slides. Use those for motion that should wait until a slide is current. The package does not ship a slide-content animation.
+
+Bars instead of dots, for example:
+
+```css
+.iop-carousel {
+  --carousel-dot-width: 1.5rem;
+  --carousel-dot-height: 3px;
+  --carousel-dot-radius: 0;
+  --carousel-dot-color: #fff;
+  --carousel-dot-active-color: var(--wp--preset--color--accent);
+  --carousel-controls-justify: flex-start;
+  --carousel-arrow-prev: var(--i-arrow-prev);
+  --carousel-arrow-next: var(--i-arrow-next);
+}
+```
+
+An example slide pattern a theme can register. The carousel structure comes from the variation, so the pattern is only the slide:
+
+```php
+<?php
+/**
+ * Title: Carousel slide
+ * Slug: theme/carousel-slide
+ * Inserter: true
+ */
+?>
+<!-- wp:group {"className":"iop-carousel__slide"} -->
+<div class="wp-block-group iop-carousel__slide">
+  <!-- wp:heading {"level":2} -->
+  <h2 class="wp-block-heading">Slide title</h2>
+  <!-- /wp:heading -->
+  <!-- wp:paragraph -->
+  <p>Slide text.</p>
+  <!-- /wp:paragraph -->
+</div>
+<!-- /wp:group -->
+```
+
+A carousel inserted from the variation is a `section` with no alignment and no color. Set those on the block, or in the theme pattern that wraps it.
+
 ### Block Extensions
 
 #### Button Icons
@@ -126,6 +226,7 @@ Import into **editor.js**. Minimal required styles are bundled with the JS:
 // @link https://github.com/ideasonpurpose/wp-theme-addons
 import {
   initButtonIconPicker,
+  initCarouselBlock,
   initCssLocalProps,
   initLinkedGroupBlock,
   initRelatedPostsQueryBlock,
@@ -133,9 +234,22 @@ import {
 
 initLinkedGroupBlock();
 initRelatedPostsQueryBlock();
+initCarouselBlock();
 initCssLocalProps();
 initButtonIconPicker([...]);
 ```
+
+Call `initCarouselBlock()` while the editor script evaluates, same as the other inits. The import pulls `carousel.css` into the editor bundle. Autoplay does not run in the editor.
+
+Front end, in `main.js`. This entry is separate so the editor bundle does not load Embla:
+
+```javascript
+import { initCarousels } from "@ideasonpurpose/wp-theme-addons/carousel";
+
+initCarousels();
+```
+
+Embla and its accessibility, autoplay, and class-names plugins are dependencies of this package, pinned to the 9.0.0 release candidate (`9.0.0-rc04`) because the carousel uses the v9 API. `initCarousels()` waits for `DOMContentLoaded` if the document is still loading.
 
 The package ships untranspiled source: `.js` files contain JSX and import `.scss` files. The theme's build must transpile JSX and compile Sass for this package inside `node_modules`. `@wordpress/*` packages are expected to be provided as externals by the theme's build (for example `@wordpress/scripts`).
 
@@ -143,11 +257,13 @@ The package ships untranspiled source: `.js` files contain JSX and import `.scss
 
 ```php
 use IdeasOnPurpose\WP\RelatedPosts;
+use IdeasOnPurpose\WP\Theme\Addons\Block\Variation\Group\Carousel\Carousel;
 use IdeasOnPurpose\WP\Theme\Addons\Block\Variation\Group\LinkedGroup\LinkedGroup;
 use IdeasOnPurpose\WP\Theme\Addons\Block\Variation\Query\RelatedPostsQuery\RelatedPostsQuery;
 use IdeasOnPurpose\WP\Theme\Addons\CssLocalProps\CssLocalProps;
 
 new LinkedGroup();
+new Carousel(); // inlines carousel.css and writes data-* settings
 new RelatedPostsQuery(); // uses RelatedPosts for ranking
 new CssLocalProps();
 
