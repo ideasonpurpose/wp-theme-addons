@@ -141,7 +141,6 @@ const wrappedEdit = createHigherOrderComponent((BlockEdit) => {
           max={7}
           marks
           __nextHasNoMarginBottom
-          __next40pxDefaultSize
         />
       ));
 
@@ -156,7 +155,6 @@ const wrappedEdit = createHigherOrderComponent((BlockEdit) => {
           max={7}
           marks
           __nextHasNoMarginBottom
-          __next40pxDefaultSize
         />,
       );
     }
@@ -182,7 +180,6 @@ const wrappedEdit = createHigherOrderComponent((BlockEdit) => {
         min={1}
         max={12}
         __nextHasNoMarginBottom
-        __next40pxDefaultSize
       />
     );
 
@@ -199,7 +196,6 @@ const wrappedEdit = createHigherOrderComponent((BlockEdit) => {
         min={0}
         max={12}
         __nextHasNoMarginBottom
-        __next40pxDefaultSize
         help="Offset the returned items by this amount."
       />
     );
@@ -228,7 +224,6 @@ const wrappedEdit = createHigherOrderComponent((BlockEdit) => {
                     options={postTypeOptions}
                     onChange={setPostTypes}
                     __nextHasNoMarginBottom
-                    __next40pxDefaultSize
                     help="Show Related Content from these post types."
                   />
                   {weightsSliders || Spinner}

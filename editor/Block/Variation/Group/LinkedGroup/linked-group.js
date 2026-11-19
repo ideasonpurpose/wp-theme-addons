@@ -176,7 +176,6 @@ const wrappedEdit = createHigherOrderComponent((BlockEdit) => {
                     onDeselect={() => setAttributes({ rel: "" })}
                   >
                     <TextControl
-                      __next40pxDefaultSize
                       label={__("Link relation")}
                       help={createInterpolateElement(
                         __(

@@ -55,7 +55,6 @@ const buttonIconPickerInterface = createHigherOrderComponent(
               <SelectControl
                 label="Select an icon"
                 value={buttonIcon}
-                __next40pxDefaultSize={true}
                 options={_icons}
                 onChange={(/** @type {any} */ value) =>
                   setAttributes({ buttonIcon: value })

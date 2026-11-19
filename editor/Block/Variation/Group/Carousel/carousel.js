@@ -260,7 +260,6 @@ const withCarouselControls = createHigherOrderComponent((BlockEdit) => {
                   max={20}
                   step={1}
                   __nextHasNoMarginBottom
-                  __next40pxDefaultSize
                 />
               )}
               <ToggleControl
@@ -298,7 +297,6 @@ const withCarouselControls = createHigherOrderComponent((BlockEdit) => {
                         : 0,
                   });
                 }}
-                __next40pxDefaultSize
               />
             </PanelBody>
           </InspectorControls>
@@ -325,7 +323,6 @@ const withCarouselControls = createHigherOrderComponent((BlockEdit) => {
                         : undefined,
                   });
                 }}
-                __next40pxDefaultSize
               />
             </PanelBody>
           </InspectorControls>
