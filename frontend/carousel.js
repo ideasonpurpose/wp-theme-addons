@@ -34,6 +34,7 @@ export function readCarouselOptions(wrapper) {
         : CAROUSEL_DEFAULTS.duration,
     arrows: booleanAttr(data.arrows, CAROUSEL_DEFAULTS.arrows),
     dots: booleanAttr(data.dots, CAROUSEL_DEFAULTS.dots),
+    pause: booleanAttr(data.pause, CAROUSEL_DEFAULTS.pause),
     loop: booleanAttr(data.loop, CAROUSEL_DEFAULTS.loop),
     random:
       Number.isFinite(random) && random > 0
@@ -266,17 +267,7 @@ function mountCarousel(wrapper) {
     api.plugins()?.accessibility?.setupPrevAndNextButtons(prev, next);
   }
 
-  /** @type {HTMLElement | null} */
-  let controls = null;
-  const ensureControls = () => {
-    if (controls) return controls;
-    controls = document.createElement("div");
-    controls.className = "iop-carousel-controls";
-    wrapper.append(controls);
-    return controls;
-  };
-
-  if (options.autoplay) {
+  if (options.autoplay && options.pause) {
     pauseButton = createButton("iop-carousel-pause", "Pause automatic slides");
     pauseButton.setAttribute("aria-pressed", "false");
     pauseButton.addEventListener("click", () => {
@@ -284,7 +275,7 @@ function mountCarousel(wrapper) {
       if (!userPaused) hovered = false;
       sync();
     });
-    ensureControls().append(pauseButton);
+    wrapper.append(pauseButton);
   }
 
   const updateDots = () => {
@@ -308,7 +299,10 @@ function mountCarousel(wrapper) {
       dot.addEventListener("click", () => go(index));
       dotsNode.append(dot);
     }
-    ensureControls().append(dotsNode);
+    const controls = document.createElement("div");
+    controls.className = "iop-carousel-controls";
+    controls.append(dotsNode);
+    wrapper.append(controls);
     api.plugins()?.accessibility?.setupDotButtons(dotsNode);
     updateDots();
   }

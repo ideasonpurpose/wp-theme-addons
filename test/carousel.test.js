@@ -125,6 +125,7 @@ describe("readCarouselOptions", () => {
       duration: 6,
       arrows: true,
       dots: true,
+      pause: false,
       loop: true,
       random: 0,
     });
@@ -136,6 +137,7 @@ describe("readCarouselOptions", () => {
     wrapper.dataset.duration = "4.5";
     wrapper.dataset.arrows = "false";
     wrapper.dataset.dots = "true";
+    wrapper.dataset.pause = "true";
     wrapper.dataset.loop = "false";
     wrapper.dataset.random = "3.8";
     assert.deepEqual(readCarouselOptions(wrapper), {
@@ -143,6 +145,7 @@ describe("readCarouselOptions", () => {
       duration: 4.5,
       arrows: false,
       dots: true,
+      pause: true,
       loop: false,
       random: 3,
     });
@@ -226,7 +229,7 @@ describe("initCarousels", () => {
     );
     assert.ok(wrapper.querySelector(".iop-carousel-arrow--prev"));
     assert.ok(wrapper.querySelector(".iop-carousel-arrow--next"));
-    assert.ok(wrapper.querySelector(".iop-carousel-pause"));
+    assert.equal(wrapper.querySelector(".iop-carousel-pause"), null);
     assert.ok(wrapper.querySelector(".iop-carousel__live"));
     assert.ok(wrapper.classList.contains("is-ready"));
     assert.equal(
@@ -300,7 +303,9 @@ describe("initCarousels", () => {
 
   it("keeps autoplay running after both arrow and dot clicks until pause", () => {
     window = installBrowser();
-    const wrapper = carouselFixture(window, ["One", "Two", "Three"]);
+    const wrapper = carouselFixture(window, ["One", "Two", "Three"], {
+      "data-pause": "true",
+    });
     const calls = [];
     const originalLog = console.log;
     console.log = (...args) => calls.push(args);
@@ -310,6 +315,7 @@ describe("initCarousels", () => {
 
     const pause = wrapper.querySelector(".iop-carousel-pause");
     assert.equal(pause?.hidden, false);
+    assert.equal(pause?.parentElement, wrapper);
     assert.equal(pause?.getAttribute("aria-pressed"), "false");
 
     wrapper
@@ -331,10 +337,23 @@ describe("initCarousels", () => {
 
   it("does not autoplay or show pause when reduced motion is set", () => {
     window = installBrowser(true);
-    const wrapper = carouselFixture(window, ["One", "Two"]);
+    const wrapper = carouselFixture(window, ["One", "Two"], {
+      "data-pause": "true",
+    });
     initCarousels(window.document);
     const pause = wrapper.querySelector(".iop-carousel-pause");
     assert.equal(pause?.hidden, true);
+  });
+
+  it("keeps the pause button when pagination is off", () => {
+    window = installBrowser();
+    const wrapper = carouselFixture(window, ["One", "Two"], {
+      "data-dots": "false",
+      "data-pause": "true",
+    });
+    initCarousels(window.document);
+    assert.equal(wrapper.querySelector(".iop-carousel-controls"), null);
+    assert.ok(wrapper.querySelector(".iop-carousel-pause"));
   });
 
   it("omits arrows and dots when those settings are off", () => {
@@ -383,7 +402,9 @@ describe("initCarousels", () => {
 
   it("does not build a second set of controls when called twice", () => {
     window = installBrowser();
-    const wrapper = carouselFixture(window, ["One", "Two"]);
+    const wrapper = carouselFixture(window, ["One", "Two"], {
+      "data-pause": "true",
+    });
     initCarousels(window.document);
     initCarousels(window.document);
     assert.equal(wrapper.querySelectorAll(".iop-carousel-arrow").length, 2);

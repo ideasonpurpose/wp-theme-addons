@@ -52,6 +52,7 @@ class Carousel
                 'carouselAutoplay' => 'data-autoplay',
                 'carouselArrows' => 'data-arrows',
                 'carouselDots' => 'data-dots',
+                'carouselPause' => 'data-pause',
                 'carouselLoop' => 'data-loop',
             ]
             as $key => $attribute

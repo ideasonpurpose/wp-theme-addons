@@ -28,6 +28,7 @@ const GROUP_ATTRIBUTES = {
   carouselDuration: { type: "number", default: DEFAULTS.duration },
   carouselArrows: { type: "boolean", default: DEFAULTS.arrows },
   carouselDots: { type: "boolean", default: DEFAULTS.dots },
+  carouselPause: { type: "boolean", default: DEFAULTS.pause },
   carouselLoop: { type: "boolean", default: DEFAULTS.loop },
   carouselRandom: { type: "number", default: DEFAULTS.random },
 };
@@ -125,6 +126,7 @@ export function initCarouselBlock() {
       carouselDuration: DEFAULTS.duration,
       carouselArrows: DEFAULTS.arrows,
       carouselDots: DEFAULTS.dots,
+      carouselPause: DEFAULTS.pause,
       carouselLoop: DEFAULTS.loop,
       carouselRandom: DEFAULTS.random,
     },
@@ -259,6 +261,14 @@ const withCarouselControls = createHigherOrderComponent((BlockEdit) => {
                   min={1}
                   max={20}
                   step={1}
+                  __nextHasNoMarginBottom
+                />
+              )}
+              {autoplay && (
+                <ToggleControl
+                  label={__("Pause button")}
+                  checked={attributes.carouselPause === true}
+                  onChange={(value) => setAttributes({ carouselPause: value })}
                   __nextHasNoMarginBottom
                 />
               )}

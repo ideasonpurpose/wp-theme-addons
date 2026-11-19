@@ -44,6 +44,7 @@ Settings live on the Carousel variation and are copied to data attributes when P
 | `carouselDuration` | `data-duration` | `6` (seconds)          |
 | `carouselArrows`   | `data-arrows`   | `true`                 |
 | `carouselDots`     | `data-dots`     | `true`                 |
+| `carouselPause`    | `data-pause`    | `false`                |
 | `carouselLoop`     | `data-loop`     | `true`                 |
 | `carouselRandom`   | `data-random`   | `0` (keep every slide) |
 
@@ -51,7 +52,7 @@ Settings live on the Carousel variation and are copied to data attributes when P
 
 A slide can set its own `slideDuration` (seconds) in the inspector. It is saved as `data-slide-duration` on that block and overrides `carouselDuration` for that slide only.
 
-Arrow clicks and dot clicks both restart the autoplay timer. A pause button (WCAG 2.2.2) stops and resumes it. Autoplay does not start when `prefers-reduced-motion: reduce` is set, while the pointer is over the carousel, or while the carousel is off screen. Arrow keys move only the carousel that contains the focus, and they leave text fields alone.
+Arrow clicks and dot clicks both restart the autoplay timer. `carouselPause` adds a pause button that stops and resumes it. The button is off by default; an autoplaying carousel needs it to meet WCAG 2.2.2. It sits on its own, outside the pagination row. Autoplay does not start when `prefers-reduced-motion: reduce` is set, while the pointer is over the carousel, or while the carousel is off screen. Arrow keys move only the carousel that contains the focus, and they leave text fields alone.
 
 Look is custom properties on `.iop-carousel`. Override these in the theme; the structural selectors can stay alone.
 
@@ -70,6 +71,7 @@ Look is custom properties on `.iop-carousel`. Override these in the theme; the s
 | `--carousel-pause-icon`       | pause bars                 | Pause icon                         |
 | `--carousel-play-icon`        | triangle                   | Play icon                          |
 | `--carousel-pause-size`       | `2.25rem`                  | Pause button                       |
+| `--carousel-pause-inset`      | `auto 1rem 1rem auto`      | Pause position (`inset` shorthand) |
 | `--carousel-dot-width`        | `0.625rem`                 | Pagination mark                    |
 | `--carousel-dot-height`       | `0.625rem`                 | Pagination mark                    |
 | `--carousel-dot-radius`       | `999px`                    | `0` makes bars                     |

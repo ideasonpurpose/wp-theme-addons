@@ -18,6 +18,7 @@
   --carousel-pause-icon: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20fill%3D%22%23000%22%20d%3D%22M6%205h4v14H6zm8%200h4v14h-4z%22%2F%3E%3C%2Fsvg%3E");
   --carousel-play-icon: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20fill%3D%22%23000%22%20d%3D%22M8%205v14l11-7z%22%2F%3E%3C%2Fsvg%3E");
   --carousel-pause-size: 2.25rem;
+  --carousel-pause-inset: auto 1rem 1rem auto;
   --carousel-dot-width: 0.625rem;
   --carousel-dot-height: 0.625rem;
   --carousel-dot-radius: 999px;
@@ -163,6 +164,10 @@ body:not(.wp-admin, .block-editor-iframe__body) .wp-block-group.iop-carousel .io
 }
 
 .iop-carousel button.iop-carousel-pause {
+  position: absolute;
+  inset: var(--carousel-pause-inset);
+  z-index: 2;
+
   display: grid;
   place-items: center;
   width: var(--carousel-pause-size);

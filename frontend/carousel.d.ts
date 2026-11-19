@@ -3,6 +3,7 @@ export interface CarouselOptions {
   duration: number;
   arrows: boolean;
   dots: boolean;
+  pause: boolean;
   loop: boolean;
   random: number;
 }
